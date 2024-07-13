@@ -1,0 +1,33 @@
+@mixin back-green-yellow {
+    background: rgba(120, 159, 12, 1);
+    background: -moz-linear-gradient(left, rgba(120, 159, 12, 1) 0%, rgba(255, 225, 0, 1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(120, 159, 12, 1)), color-stop(100%, rgba(255, 225, 0, 1)));
+    background: -webkit-linear-gradient(left, rgba(120, 159, 12, 1) 0%, rgba(255, 225, 0, 1) 100%);
+    background: -o-linear-gradient(left, rgba(120, 159, 12, 1) 0%, rgba(255, 225, 0, 1) 100%);
+    background: -ms-linear-gradient(left, rgba(120, 159, 12, 1) 0%, rgba(255, 225, 0, 1) 100%);
+    background: linear-gradient(to right, rgba(120, 159, 12, 1) 0%, rgba(255, 225, 0, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#789f0c', endColorstr='#ffe100', GradientType=1);
+}
+
+@mixin column {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin row {
+    display: flex;
+    flex-direction: row;
+}
+
+@mixin centered-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin shadow ($shadow-color) {
+    -webkit-box-shadow: 7px 7px 5px -1px $shadow-color;
+    -moz-box-shadow: 7px 7px 5px -1px $shadow-color;
+    box-shadow: 7px 7px 5px -1px $shadow-color;
+}
+
