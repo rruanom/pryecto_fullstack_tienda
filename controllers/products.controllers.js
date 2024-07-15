@@ -54,11 +54,26 @@ const createProduct = async (req,res) => {
     }
 }
 
+const updateProduct = async (req, res) => {
+    const modifiedProduct = req.body;
+    console.log('modifiedProduct', modifiedProduct)
+    try {
+        const response = await product.updateProduct(modifiedProduct);
+        res.status(201).json({
+            "items_updated": response,
+            data: modifiedProduct
+        });
+    } catch (error) {
+        res.status(500).json({ error: "Error en la BBDD" });
+    }
+};
+
 module.exports = {
     getTenProductsRandom,
     getProductsByFilters,
     deleteProduct,
-    createProduct
+    createProduct,
+    updateProduct
 };
 
 /*create product: 
@@ -70,3 +85,15 @@ module.exports = {
 "provider": "Verduras del Campo S.A.", 
 "category":"Arroz, legumbres y pasta"
 }*/
+
+/*
+update product
+{
+"description": "puñadito de puerros de murcia", 
+"price": "2", 
+"image": "https://st5.depositphotos.com/9648566/66723/i/450/depositphotos_667231348-stock-photo-may-2022-ukraine-city-kyiv.jpg", 
+"provider": "Verduras del Campo S.A.", 
+"category":"Arroz, legumbres y pasta",
+"name": "puerros"
+}
+*/

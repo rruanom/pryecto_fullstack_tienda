@@ -70,10 +70,26 @@ const createProduct = async (name, description, price, image, provider, category
 };
 }
 
+const updateProduct = async (product) => {
+    const { description, price, image, category, provider, name } = product;
+    let client, result;
+    try {
+        client = await pool.connect();
+        const data = await client.query(queries.updateProduct, [description, price, image, category, provider, name]);
+        result = data.rows; 
+        return result;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+   
+};
+
 module.exports = {
     getProductsRandom,
     getTenProducts,
     getProductsByFilters,
     deleteProductByName,
-    createProduct
+    createProduct,
+    updateProduct
 };

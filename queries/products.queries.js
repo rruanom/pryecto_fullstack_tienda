@@ -1,8 +1,4 @@
 const queries = {
-    getProductsByName: `
-    SELECT * 
-    FROM products 
-    WHERE LOWER(name) LIKE '%' || LOWER($1) || '%';`,
     getProductsByFilters:`
     SELECT *
     FROM (
@@ -28,24 +24,14 @@ const queries = {
     SELECT *
     FROM products
     WHERE id_product IN ($1, $2, $3, $3, $4, $5, $6, $7, $8, $9, $10);`,
-    getProductsByProvider:`
-    SELECT *
-    FROM products p
-    JOIN provider prov ON p.id_provider = prov.id_provider
-    WHERE LOWER(prov.name) LIKE '%' || LOWER($1) || '%';`,
-     getProductsByCategory:`
-    SELECT *
-    FROM products p
-    JOIN categories c ON p.id_category = c.id_category
-    WHERE LOWER(c.name) LIKE '%' || LOWER($1) || '%';`,
     updateProduct: `
     UPDATE products
     SET
-        description = COALESCE($1, description),
-        price = COALESCE($2, price),
-        image = COALESCE($3, image),
-        category_id = COALESCE($4, category),
-        provider_id = COALESCE($5, provider_id)
+    description = COALESCE($1, description),
+    price = COALESCE($2, price),
+    image = COALESCE($3, image),
+    id_category = COALESCE((SELECT id_category FROM categories WHERE name = $4), id_category),
+    id_provider = COALESCE((SELECT id_provider FROM providers WHERE name = $5), id_provider)
     WHERE name = $6;`,
     deleteProduct: `
     DELETE FROM products
