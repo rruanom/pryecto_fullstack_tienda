@@ -26,14 +26,13 @@ app.use(express.json()); // Para habilitar recepción de datos JSON en una reque
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 
-app.use(express.json()); // Habilito recepción de JSON en servidor
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(express.static('public')); // Habilito la carpeta public para archivos estáticos
 
 //Rutas API
-app.use('/api/products', rutasProducts);
+app.use('/', rutasProducts);
 
 //http://localhost:3000/api-docs/
 //app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

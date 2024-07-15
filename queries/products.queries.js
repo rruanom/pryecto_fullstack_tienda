@@ -2,28 +2,42 @@ const queries = {
     getProductsByName: `
     SELECT * 
     FROM products 
-    WHERE name LIKE $1';`,
+    WHERE LOWER(name) LIKE '%' || LOWER($1) || '%';`,
+    getProductsByFilters:`
+    SELECT *
+    FROM (
+    SELECT p.*, c.name AS category_name
+    FROM products p
+    JOIN categories c ON p.id_category = c.id_category
+    WHERE LOWER(c.name) LIKE LOWER('%' || $1 || '%')
+    ) AS byCategory
+    JOIN (
+    SELECT p.*, prov.name AS provider_name
+    FROM products p
+    JOIN providers prov ON p.id_provider = prov.id_provider
+    WHERE LOWER(prov.name) LIKE LOWER('%' || $2 || '%')
+    ) AS byProvider ON byCategory.id_product = byProvider.id_product
+    WHERE LOWER(byProvider.provider_name) LIKE LOWER('%' || $3 || '%');`,
     //para hacer la paginacion de 10 en 10 en Home
     geAllProductsRandom:`
     SELECT id_product 
     FROM products 
-    ORDER BY RAND();
+    ORDER BY RANDOM();
     `,
     get10Products: `
     SELECT *
     FROM products
-    WHERE product_id IN ($1, $2, $3, $3, $4, $5, $6, $7, $8, $9, $10);`,
-    getProductByProvider:`
+    WHERE id_product IN ($1, $2, $3, $3, $4, $5, $6, $7, $8, $9, $10);`,
+    getProductsByProvider:`
     SELECT *
     FROM products p
-    JOIN providers pr ON p.provider_id = pr.provider_id
-    WHERE pr.name ILIKE $1;
-    `,
-     getProductByCategory:`
+    JOIN provider prov ON p.id_provider = prov.id_provider
+    WHERE LOWER(prov.name) LIKE '%' || LOWER($1) || '%';`,
+     getProductsByCategory:`
     SELECT *
     FROM products p
-    JOIN categories c ON p.category_id = c.category_id
-    WHERE c.name ILIKE $1;`,
+    JOIN categories c ON p.id_category = c.id_category
+    WHERE LOWER(c.name) LIKE '%' || LOWER($1) || '%';`,
     updateProduct: `
     UPDATE products
     SET
@@ -38,9 +52,11 @@ const queries = {
     WHERE name = $1
     RETURNING *;`,
     createProduct:`
-    INSERT INTO products (name, description, price, provider_id, category_id, image)
-    VALUES ($1, $2, $3, $4, $5, $6)
-    RETURNING *;
+    INSERT INTO products (name, description, price, image, id_provider, id_category)
+    SELECT $1, $2, $3, $4, p.id_provider, c.id_category
+    FROM providers p
+    JOIN categories c ON p.name = $5 AND c.name = $6
+    RETURNING *
     `
 }
 
