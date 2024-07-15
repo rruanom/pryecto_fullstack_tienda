@@ -8,7 +8,7 @@
     "server": "nodemon index.js",
     "client": "npm start --prefix client",
     "client:build": "npm run build --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run feed_db\" \"npm run client\"",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "feed_db": "node seed/product-seeder.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"

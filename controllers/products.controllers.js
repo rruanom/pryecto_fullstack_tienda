@@ -17,12 +17,9 @@ const getTenProductsRandom = async (req, res) => {
 
 const getProductsByFilters = async (req, res) => {
     try {
-        const category = req.body.category || "%"; 
-        console.log('category', category)
-        const provider = req.body.provider || "%";
-        console.log('provider', provider)
+        const category = req.params.category || "%"; 
+        const provider = req.params.provider || "%";
         const keyword = req.params.keyword || "%";
-        console.log('keyword', keyword)
         const products = await product.getProductsByFilters(category, provider, keyword); // Llamar a la función con el nombre obtenido
         return res.status(200).json(products);
     } catch (error) {

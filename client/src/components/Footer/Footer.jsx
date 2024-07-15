@@ -1,7 +1,5 @@
-import React from "react";
-
 const Footer = () => {
-  return <div>Footer</div>;
+  return <footer>Trabajo final FullStack Roberto Ruano</footer>;
 };
 
 export default Footer;

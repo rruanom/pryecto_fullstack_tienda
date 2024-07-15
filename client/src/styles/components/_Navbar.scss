@@ -1,0 +1,70 @@
+@import "../utils/variables.scss";
+
+
+%nav{
+    width:100%;
+
+
+    &>input{
+        display: none;
+    }
+
+    &>input:checked~ul{
+        display: block;
+    }
+
+    &>ul{
+        position:absolute;
+        left:0;
+        width:100%;
+        text-align: center;
+        list-style-type: none;
+        display: none;
+
+        &>li{
+            padding:16px;
+
+        
+            &:hover{
+                background-color: $blue;
+
+                & a{
+                    color:white;
+                    display:block;
+                    height:100%;
+                    width:100%;
+                }
+            }
+        }
+    }
+}
+
+.nav-day {
+@extend %nav;
+    &>ul{
+        background-color: $blue;
+    }
+}
+
+.nav-night {
+@extend %nav;
+    &>ul{
+        background-color: $dark-blue;
+    }
+}
+
+
+@media only screen and (min-width:$ipad-breakpoint){
+    %nav{
+        &>label{
+            display:none;
+        }
+
+        &>ul{
+            position:static;
+            display:flex;
+            justify-content: space-around;
+            
+        }
+    }
+}

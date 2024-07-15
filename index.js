@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use(express.static('public')); // Habilito la carpeta public para archivos estáticos
+app.use(express.static(path.join(__dirname, 'client/build')));; // Habilito la carpeta public para archivos estáticos
 
 //Rutas API
 app.use('/', rutasProducts);
@@ -38,6 +38,11 @@ app.use('/', rutasProducts);
 //app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 //http://localhost:3000/api-jsdoc/
 //app.use('/api-jsdoc', express.static(path.join(__dirname, '/jsondocs')));
+
+// Handles any requests that don't match the ones above
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 
 //Invocar middleware
 app.use(error404); //Middleware para manejo de 404
