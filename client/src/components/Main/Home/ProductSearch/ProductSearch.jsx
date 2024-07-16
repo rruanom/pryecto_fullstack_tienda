@@ -7,10 +7,33 @@ const ProductSearch = ({ setProducts }) => {
     category: '',
     provider: '',
     keyword: '',
-    page: 1
+    page: 1,
+    priceOrder: '' // Nuevo parámetro
   });
+
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(true);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'keyword') {
+      clearTimeout(refTime.current);
+      refTime.current = setTimeout(() => {
+        setObjectParams((prevParams) => ({
+          ...prevParams,
+          keyword: value,
+          page: 1
+        }));
+      }, 1000);
+    } else {
+      setObjectParams((prevParams) => ({
+        ...prevParams,
+        [name]: value,
+        page: 1
+      }));
+    }
+  };
+
 
   const fetchData = async () => {
     setLoading(true);
@@ -33,26 +56,6 @@ const ProductSearch = ({ setProducts }) => {
     fetchData();
     return () => clearTimeout(refTime.current);
   }, [objectParams]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === 'keyword') {
-      clearTimeout(refTime.current);
-      refTime.current = setTimeout(() => {
-        setObjectParams((prevParams) => ({
-          ...prevParams,
-          keyword: value,
-          page: 1
-        }));
-      }, 1000);
-    } else {
-      setObjectParams((prevParams) => ({
-        ...prevParams,
-        [name]: value,
-        page: 1
-      }));
-    }
-  };
 
 
   return (
@@ -127,6 +130,17 @@ const ProductSearch = ({ setProducts }) => {
             <option value="Pasta Fresca S.L.">Pasta Fresca S.L.</option>
             <option value="Arroces del Mundo S.A.">Arroces del Mundo S.A.</option>
           </select>
+          <div className="form-group price-order">
+            <label htmlFor="priceOrder">Orden de precio:</label>
+            <select
+              name="priceOrder"
+              onChange={handleChange}
+            >
+              <option value="">Sin orden</option>
+              <option value="asc">Menor precio primero</option>
+              <option value="desc">Mayor precio primero</option>
+            </select>
+          </div>
         </div>
       </form>
       {loading ? <p>Cargando...</p> : <p>{message}</p>}

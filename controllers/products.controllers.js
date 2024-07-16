@@ -13,12 +13,14 @@ const { validationResult } = require("express-validator");
 }; */
 
 const getProductsByFilters = async (req, res) => {
-    const { category = '', provider = '', keyword = '', page = 1 } = req.query;
+    const { category = '', provider = '', keyword = '', page = 1, priceOrder = '' } = req.query;
     const limit = 10;
     const offset = (page - 1) * limit;
 
+    console.log('Received request with params:', { category, provider, keyword, page, priceOrder }); // Log para debugging
+
     try {
-        const result = await product.getProductsByFilters(category, provider, keyword, page);
+        const result = await product.getProductsByFilters(category, provider, keyword, page, priceOrder);
         res.json(result);
     } catch (err) {
         console.error(err);
