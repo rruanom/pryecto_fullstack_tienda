@@ -4,11 +4,14 @@ import ProductsList from './ProductsList/ProductsList'
 
 const Home = () => {
 
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([] )
+
+
 
   return <div id="home">
     <section className="ProductSearchContainer"><ProductSearch setProducts={setProducts}/></section>
     <section className="ProductListContainer"><ProductsList products={products}/></section>
+
   </div>;
 };
 

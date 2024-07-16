@@ -2,31 +2,32 @@ const queries = {
     getProductsByFilters:`
     SELECT *
     FROM (
-    SELECT p.*, c.name AS category_name
+    SELECT *, c.name AS category_name
     FROM products p
     JOIN categories c ON p.id_category = c.id_category
     WHERE LOWER(c.name) LIKE LOWER('%' || $1 || '%')
     ) AS byCategory
     JOIN (
-    SELECT p.*, prov.name AS provider_name
+    SELECT *, prov.name AS provider_name
     FROM products p
     JOIN providers prov ON p.id_provider = prov.id_provider
     WHERE LOWER(prov.name) LIKE LOWER('%' || $2 || '%')
     ) AS byProvider ON byCategory.id_product = byProvider.id_product
-    WHERE LOWER(byProvider.provider_name) LIKE LOWER('%' || $3 || '%');`,
-    //para hacer la paginacion de 10 en 10 en Home
-    geAllProductsRandom:`
-    SELECT id_product 
-    FROM products 
-    ORDER BY RANDOM();
+    WHERE LOWER(byProvider.provider_name) LIKE LOWER('%' || $3 || '%')
+    ORDER BY RANDOM()
+    LIMIT 10 OFFSET $1;`,
+    //para hacer la paginacion de 10 en 10 en Home de manera aleatoria
+    getTenProductsRandom: `
+    SELECT p.name, p.image, p.price, p.id_category,
+       prov.name AS provider, c.name AS category
+    FROM products p
+    JOIN providers prov ON p.id_provider = prov.id_provider
+    JOIN categories c ON p.id_category = c.id_category
+    ORDER BY RANDOM()
+    LIMIT 10 OFFSET $1;
     `,
-    get10Products: `
-    SELECT *
-    FROM products
-    WHERE id_product IN ($1, $2, $3, $3, $4, $5, $6, $7, $8, $9, $10);`,
-    updateProduct: `
-    UPDATE products
-    SET
+    updateProducts:
+    `SET
     description = COALESCE($1, description),
     price = COALESCE($2, price),
     image = COALESCE($3, image),
