@@ -1,15 +1,18 @@
-import { useState } from 'react'
-import './App.css'
-
+import { BrowserRouter } from 'react-router-dom';
+//import './App.css'
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+import Main from './components/Main/Main';
+//importamos contexto
 function App() {
-
   return (
     <>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <BrowserRouter >
+        <Header />
+        <Main />
+      </BrowserRouter>
+      <Footer />
     </>
   )
 }
-
 export default App

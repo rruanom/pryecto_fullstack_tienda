@@ -1,7 +1,27 @@
-import React from "react";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-const ProductCard = () => {
-  return <div>ProductCard</div>;
-};
+export default function ProductCard({ product }) {
+  const { name, price, id_category, category, image, provider } = product;
 
-export default ProductCard;
+  // Clase de tipo principal
+  const typeClass = `type-${id_category}`;
+
+  return (
+    //<Link to={`/pokemon/${id}`} state={{  }} className="pokemon-link">
+    <article className={typeClass}>
+    <header>
+      <h2 className='name'>{name}</h2>
+    </header>
+    <div className="price">{price}</div>
+    <figure>
+      <img src={image} alt={`Image of ${category}`} />
+      <figcaption className='category'>{category}</figcaption>
+    </figure>
+    <footer>
+      <div className='provider'>{provider}</div>
+    </footer>
+  </article>
+    //</Link>
+  );
+}
