@@ -1,7 +1,7 @@
 const product = require('../models/products.models');
 const { validationResult } = require("express-validator");
 
-const getTenProductsRandom = async (req, res) => {
+/* const getTenProductsRandom = async (req, res) => {
     const page = parseInt(req.params.page) || 0;
     const offset = page * 10;
     try {
@@ -10,29 +10,21 @@ const getTenProductsRandom = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-};
+}; */
 
 const getProductsByFilters = async (req, res) => {
+    const { category = '', provider = '', keyword = '', page = 1 } = req.query;
+    const limit = 10;
+    const offset = (page - 1) * limit;
+
     try {
-        const category = req.body.category
-        console.log(category)
-        const provider = req.body.provider
-        console.log(provider)
-        const keyword = req.body.keyword
-        console.log(keyword)
-        let products;
-        if (!category && !provider && !keyword) {
-            const random = await product.getProductsRandom();
-            products = await product.getTenProducts([...random]);
-        } else {
-            products = await product.getProductsByFilters(category, provider, keyword); // Llamar a la función con el nombre obtenido
-        }
-        return res.status(200).json(products);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+        const result = await product.getProductsByFilters(category, provider, keyword, page);
+        res.json(result);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'An error occurred while fetching products' });
     }
 }
-
 const deleteProduct = async (req, res) => {
     try {
         const name = req.params.name
@@ -72,7 +64,7 @@ const updateProduct = async (req, res) => {
 };
 
 module.exports = {
-    getTenProductsRandom,
+    //getTenProductsRandom,
     getProductsByFilters,
     deleteProduct,
     createProduct,

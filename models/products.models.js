@@ -3,7 +3,7 @@ const pool = require('../config/db_pgsql');
 const queries = require('../queries/products.queries');
 
 
-const getTenProductsRandom = async (offset) => {
+/* const getTenProductsRandom = async (offset) => {
     try {
         const client = await pool.connect();
         const {rows} = await client.query(queries.getTenProductsRandom, [offset])
@@ -13,13 +13,16 @@ const getTenProductsRandom = async (offset) => {
         console.error('Error al obtener los IDs de productos', err);
         throw err;
     }
-}
+} */
 
-const getProductsByFilters = async (category, provider, keyword) => {
+const getProductsByFilters = async (category, provider, keyword, page) => {
     try {
         const client = await pool.connect();
-        const data = await client.query(queries.getProductsByFilters, [category, provider, keyword])
-        const list = data.rows
+        const limit = 10;
+        const offset = (page - 1) * limit;
+        const data = await client.query(queries.getProductsByFilters, [category, provider, keyword, limit, offset]);
+        const list = data.rows;
+        client.release(); // Don't forget to release the client
         return list;
     } catch (err) {
         console.error('Error al obtener los productos por filtro', err);
@@ -71,7 +74,7 @@ const updateProduct = async (product) => {
 };
 
 module.exports = {
-    getTenProductsRandom,
+    //getTenProductsRandom,
     getProductsByFilters,
     deleteProductByName,
     createProduct,
