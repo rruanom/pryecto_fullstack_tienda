@@ -11,6 +11,7 @@ const UserMenu = () => {
   const handleLogout = () => {
     dispatch(logoutUser());
     setIsOpen(false);
+  };
 
   return (
     <div className="user-menu">
@@ -36,7 +37,6 @@ const UserMenu = () => {
       )}
     </div>
   );
-};
 };
 
 export default UserMenu;
