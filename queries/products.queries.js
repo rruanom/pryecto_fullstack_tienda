@@ -1,6 +1,11 @@
 const queries = {
+    getProductById:`
+    SELECT *
+    FROM products
+    WHERE id_product = $1
+    `,
     getProductsByFilters: `
-    SELECT p.name, p.image, p.price, p.id_category, c.name AS category, prov.name AS provider
+    SELECT p.id_product, p.name, p.image, p.price, p.id_category, c.name AS category, prov.name AS provider
     FROM products p
     JOIN categories c ON p.id_category = c.id_category
     JOIN providers prov ON p.id_provider = prov.id_provider

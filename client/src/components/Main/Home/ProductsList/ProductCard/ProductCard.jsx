@@ -13,13 +13,13 @@ export default function ProductCard({ product }) {
     <header>
       <h2 className='name'>{name}</h2>
     </header>
-    <div className="price">{price}</div>
+    <div className="price">Precio: {price}€</div>
     <figure>
       <img src={image} alt={`Image of ${category}`} />
       <figcaption className='category'>{category}</figcaption>
     </figure>
     <footer>
-      <div className='provider'>{provider}</div>
+      <div className='provider'>Proveedor: {provider}</div>
     </footer>
   </article>
     //</Link>

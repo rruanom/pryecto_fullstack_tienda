@@ -1,6 +1,17 @@
 const product = require('../models/products.model');
 const { validationResult } = require("express-validator");
 
+const getProductById = async (req, res) => {
+    const {id} = req.params
+    try {
+        const result = await product.getProductById(id);
+        res.json(result);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'An error occurred while fetching product' });
+    }
+}
+
 const getProductsByFilters = async (req, res) => {
     const { category = '', provider = '', keyword = '', page = 1, priceOrder = '' } = req.query;
     const limit = 10;
@@ -55,7 +66,7 @@ const updateProduct = async (req, res) => {
 };
 
 module.exports = {
-    //getTenProductsRandom,
+    getProductById,
     getProductsByFilters,
     deleteProduct,
     createProduct,
