@@ -91,36 +91,41 @@ const ProductSearch = ({ setProducts }) => {
         </div>
         <div className="form-group category">
           <label htmlFor="category">Category:</label>
-          <select
-            name="category"
-            onChange={handleChange}>
-            <option value="">Selecciona una categoría</option>
-            <option value="Agua y refrescos">Agua y refrescos</option>
-            <option value="Arroz, legumbres y pasta">Arroz, legumbres y pasta</option>
-            <option value="Bodega">Bodega</option>
-            <option value="Carne">Carne</option>
-            <option value="Cereales y galletas">Cereales y galletas</option>
-            <option value="Charcutería y quesos">Charcutería y quesos</option>
-            <option value="Fruta y verdura">Fruta y verdura</option>
-            <option value="Huevos, leche y mantequilla">Huevos, leche y mantequilla</option>
-            <option value="Pan y bollería">Pan y bollería</option>
-            <option value="Pasta y arroz">Pasta y arroz</option>
-            {/* Opciones de categoría restantes */}
+          <select name="category" onChange={handleChange}>
+            <option key="default-category" value="">Selecciona una categoría</option>
+            {[
+              "Agua y refrescos",
+              "Arroz, legumbres y pasta",
+              "Bodega",
+              "Carne",
+              "Cereales y galletas",
+              "Charcutería y quesos",
+              "Fruta y verdura",
+              "Huevos, leche y mantequilla",
+              "Pan y bollería",
+              "Pasta y arroz",
+            ].map((category) => (
+              <option key={category} value={category}>{category}</option>
+            ))}
           </select>
         </div>
         <div className="form-group provider">
           <label htmlFor="provider">Provider:</label>
           <select name="provider" onChange={handleChange} value={objectParams.provider}>
-            <option value="">Selecciona un proveedor</option>
-            {providerList()}
+            <option key="default-provider" value="">Selecciona un proveedor</option>
+            {providers.map((provider, index) => (
+              <option key={`${index}-${provider.name}`} value={provider.name}>
+                {provider.name}
+              </option>
+            ))}
           </select>
         </div>
         <div className="form-group price-order">
           <label htmlFor="priceOrder">Orden de precio:</label>
           <select name="priceOrder" onChange={handleChange}>
-            <option value="">Sin orden</option>
-            <option value="asc">Menor precio primero</option>
-            <option value="desc">Mayor precio primero</option>
+            <option key="default-price" value="">Sin orden</option>
+            <option key="asc-price" value="asc">Menor precio primero</option>
+            <option key="desc-price" value="desc">Mayor precio primero</option>
           </select>
         </div>
       </form>

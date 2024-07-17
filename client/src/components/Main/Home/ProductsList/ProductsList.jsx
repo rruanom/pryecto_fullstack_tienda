@@ -1,26 +1,19 @@
-import react, { useState, useEffect } from "react";
-import { v4 as uuidv4 } from 'uuid'; 
-import ProductCard from './ProductCard/ProductCard'
+import React from 'react';
+import ProductCard from './ProductCard/ProductCard';
+import { v4 as uuidv4 } from 'uuid';
 
-const ProductList = ( {products} ) => {
-  console.log(products)
-
-  const [renderItems, setRenderItems]= useState()
-
-  useEffect(() => {
-    if (products.length !== 0) {
-     setRenderItems(products.map((item) => (
+const ProductList = ({ products, onProductClick }) => {
+  return (
+    <section className="productList">
+      {products.map((item) => (
         <ProductCard
           key={uuidv4()}
-          product={ item }
+          product={item}
+          onProductClick={onProductClick}
         />
-      )))
-    }
-}, [products]);
-
-return <section className="productList">
- { renderItems }
-</section>
+      ))}
+    </section>
+  );
 };
 
 export default ProductList;

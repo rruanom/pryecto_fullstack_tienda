@@ -8,7 +8,7 @@ const queries = {
     getProviderById: `
     SELECT *
     FROM providers
-    WHERE id = $1;
+    WHERE id_provider = $1;
     `,
 
     createProvider: `
@@ -23,13 +23,13 @@ const queries = {
         name = COALESCE($1, name),
         cif = COALESCE($2, cif),
         address = COALESCE($3, address)
-    WHERE id = $4
+    WHERE id_provider = $4
     RETURNING *;
     `,
 
     deleteProvider: `
     DELETE FROM providers
-    WHERE id = $1
+    WHERE id_provider = $1
     RETURNING *;
     `,
 

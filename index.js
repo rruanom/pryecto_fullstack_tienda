@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-//app.use(express.static(path.join(__dirname, 'client/build')));; // Habilito la carpeta public para archivos estáticos
+app.use(express.static(path.join(__dirname, 'client/build')));; // Habilito la carpeta public para archivos estáticos
 
 //Rutas API
 app.use('/api/products', productsRoutes);
@@ -42,9 +42,9 @@ app.use('/api/providers', providerRoutes);
 //app.use('/api-jsdoc', express.static(path.join(__dirname, '/jsondocs')));
 
 // Handles any requests that don't match the ones above
-/* app.get('*', (req,res) =>{
+app.get('*', (req,res) =>{
     res.sendFile(path.join(__dirname+'/client/build/index.html'));
-}); */
+});
 
 //Invocar middleware
 app.use(error404); //Middleware para manejo de 404
