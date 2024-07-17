@@ -26,7 +26,7 @@ const ProductSearch = ({ setProducts }) => {
 
   const fetchProviders = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/providers');
+      const res = await axios.get('http://localhost:5000/api/providers');
       setProviders(res.data);
     } catch (error) {
       console.error('Error fetching providers:', error);
@@ -65,7 +65,7 @@ const ProductSearch = ({ setProducts }) => {
     setLoading(true);
     try {
       console.log('Fetching data with params:', objectParams);
-      const res = await axios.get(`http://localhost:5000/products`, { params: objectParams });
+      const res = await axios.get(`http://localhost:5000/api/products/page`, { params: objectParams });
       console.log("API response:", res.data);
       setProducts(res.data);
       setMessage('');
