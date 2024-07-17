@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import ProductSearch from "./ProductSearch/ProductSearch";
 import ProductsList from './ProductsList/ProductsList'
-import Details from '../Details/Details'
-import CartIcon from '../CartIcon/CartIcon' // Nuevo componente que crearemos
+import Details from '../Details/Details';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -18,7 +17,6 @@ const Home = () => {
 
   return (
     <div id="home">
-      <CartIcon /> {/* Añadimos el CartIcon aquí */}
       <section className="ProductSearchContainer">
         <ProductSearch setProducts={setProducts} />
       </section>

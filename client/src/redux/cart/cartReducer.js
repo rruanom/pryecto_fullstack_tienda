@@ -7,8 +7,6 @@ const INITIAL_STATE = {
 }
 
 function cartReducer(state = INITIAL_STATE, action) { 
-    let newCart = [...state.cartItems]
-
     switch (action.type) {
         case GET_ALL_PRODUCTS:
             return {
@@ -16,15 +14,21 @@ function cartReducer(state = INITIAL_STATE, action) {
                 _products: action.payload
             }
         case ADD_CART:
-            let addedItem = state.cartItems.find(item => item.id_product === action.payload.id_pproduct)
-            if (addedItem) {
-                addedItem.quantity += 1
+            const existingItemIndex = state.cartItems.findIndex(item => item.id_product === action.payload.id_product);
+            if (existingItemIndex >= 0) {
+                // Create a new array with the updated item
+                const newCartItems = state.cartItems.map((item, index) => 
+                    index === existingItemIndex 
+                        ? { ...item, quantity: item.quantity + 1 }
+                        : item
+                );
                 return {
                     ...state,
+                    cartItems: newCartItems,
                     numberItems: state.numberItems + 1
                 }
             } else {
-                let newItem = {
+                const newItem = {
                     ...action.payload,
                     quantity: 1
                 }
@@ -35,33 +39,31 @@ function cartReducer(state = INITIAL_STATE, action) {
                 }
             }
         case INCREASE_QUANTITY:
-            newCart[action.payload].quantity++
             return {
                 ...state,
-                cartItems: newCart,
+                cartItems: state.cartItems.map((item, index) => 
+                    index === action.payload
+                        ? { ...item, quantity: item.quantity + 1 }
+                        : item
+                ),
                 numberItems: state.numberItems + 1
             }
         case DECREASE_QUANTITY:
-            if (newCart[action.payload].quantity > 1) {
-                newCart[action.payload].quantity--
-                return {
-                    ...state,
-                    cartItems: newCart,
-                    numberItems: state.numberItems - 1
-                }
-            } else {
-                return {
-                    ...state,
-                    cartItems: state.cartItems.filter((item, index) => index !== action.payload),
-                    numberItems: state.numberItems - 1
-                }
-            }
-        case DELETE_CART:
-            let quantity = newCart[action.payload].quantity
             return {
                 ...state,
-                cartItems: state.cartItems.filter((item, index) => index !== action.payload),
-                numberItems: state.numberItems - quantity
+                cartItems: state.cartItems.map((item, index) => 
+                    index === action.payload && item.quantity > 1
+                        ? { ...item, quantity: item.quantity - 1 }
+                        : item
+                ).filter((item, index) => index !== action.payload || item.quantity > 1),
+                numberItems: state.numberItems - 1
+            }
+        case DELETE_CART:
+            const itemToRemove = state.cartItems[action.payload];
+            return {
+                ...state,
+                cartItems: state.cartItems.filter((_, index) => index !== action.payload),
+                numberItems: state.numberItems - (itemToRemove ? itemToRemove.quantity : 0)
             }
         default:
             return state;

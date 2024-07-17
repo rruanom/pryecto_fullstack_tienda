@@ -27,12 +27,14 @@ const createUser = (req, res) => {
     const { name, lastname, username, email, password, image } = req.body;
     const isadmin = false; 
     const last_logged_date = new Date(); 
+    console.log(name, lastname, username, email, image, isadmin, last_logged_date)
 
     bcrypt.hash(password, 8, async (err, hash) => {
         if (err) throw err;
         try {
             const response = await user.createUser({ name, lastname, username, email, password: hash, image, isadmin, last_logged_date });
-            res.status(201).redirect('/'); 
+            console.log('response', response)
+            res.status(201).json(response)
         } catch (error) {
             res.status(500).json({ error: "Error en la BBDD" });
         }

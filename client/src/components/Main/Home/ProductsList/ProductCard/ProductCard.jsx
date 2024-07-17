@@ -11,6 +11,7 @@ export default function ProductCard({ product, onProductClick }) {
   const handleAddToCart = (e) => {
     e.stopPropagation();
     dispatch(addToCart(product));
+    e.target.blur();
   };
 
   return (

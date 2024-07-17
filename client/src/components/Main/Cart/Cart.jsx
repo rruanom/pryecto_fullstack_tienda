@@ -4,9 +4,15 @@ import { deleteCart, decreaseQuantity, increaseQuantity } from "../../../redux/c
 
 const Cart = () => {
     const dispatch = useDispatch();
-    const items = useSelector(state => state.cartItems);
+    const { cartItems } = useSelector(state => state.cart);
 
-    let TotalCart = items.reduce((total, item) => total + item.quantity * item.price, 0);
+    const totalCart = cartItems && cartItems.length > 0
+        ? cartItems.reduce((total, item) => total + (item.price * item.quantity), 0)
+        : 0;
+
+    if (!cartItems || cartItems.length === 0) {
+        return <p>Tu carrito está vacío.</p>;
+    }
 
     return (
         <table className="table">
@@ -21,8 +27,8 @@ const Cart = () => {
                 </tr>
             </thead>
             <tbody>
-                {items.map((item, i) => (
-                    <tr key={i}>
+                {cartItems.map((item, i) => (
+                    <tr key={item.id_product}>
                         <td><button onClick={() => dispatch(deleteCart(i))}>X</button></td>
                         <td>{item.name}</td>
                         <td><img src={item.image} alt={item.name} style={{ width: '100px', height: '80px' }} /></td>
@@ -37,7 +43,7 @@ const Cart = () => {
                 ))}
                 <tr>
                     <td colSpan="5">Total: </td>
-                    <td><b>{TotalCart.toFixed(2)} €</b></td>
+                    <td><b>{totalCart.toFixed(2)} €</b></td>
                 </tr>
             </tbody>
         </table>

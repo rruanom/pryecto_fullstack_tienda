@@ -1,5 +1,5 @@
 const express = require('express');
-const usuariosController = require("../controllers/users.controllers");
+const usuariosController = require("../controllers/users.controller");
 const router = express.Router();
 //const { validateGetUserByEmail, validateCreateUser, validateUpdateUser, validateDeleteUser } = require("../validators/usuarios.validator");
 
