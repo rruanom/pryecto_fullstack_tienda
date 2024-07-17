@@ -1,0 +1,25 @@
+src/
+|-- components
+|-- |-- Footer
+|-- |-- Header
+|-- |-- Main
+|-- |-- |-- Cart
+|-- |-- |-- |-- CartLis
+|-- |-- |-- Details
+|-- |-- |-- |-- ProductDetails
+|-- |-- |-- |-- ProviderDetails
+|-- |-- |-- Home
+|-- |-- |-- |-- ProductList
+|-- |-- |-- |-- |-- ProductCard
+|-- |-- |-- |-- ProductNew
+|-- |-- |-- |-- ProductSearch
+|-- |-- |-- Providers
+|-- |-- |-- |-- ProvidersList
+|-- |-- |-- |-- |-- ProviderCard
+|-- |-- |-- |-- ProviderNew
+|-- |-- |-- |-- ProviderSearch
+|-- |-- |-- Users
+|-- |-- |-- |-- UsersList
+|-- |-- |-- |-- |-- UserCard
+|-- |-- |-- |-- UserNew
+|-- |-- |-- |-- UserSearch
