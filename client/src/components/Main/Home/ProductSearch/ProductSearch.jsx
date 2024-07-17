@@ -8,11 +8,11 @@ const ProductSearch = ({ setProducts }) => {
     provider: '',
     keyword: '',
     page: 1,
-    priceOrder: '' // Nuevo parámetro
+    priceOrder: ''
   });
 
   const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false); // Estado inicial false para evitar carga innecesaria
+  const [loading, setLoading] = useState(false);
   const [providers, setProviders] = useState([]);
 
   useEffect(() => {
@@ -130,4 +130,3 @@ const ProductSearch = ({ setProducts }) => {
 };
 
 export default ProductSearch;
-
