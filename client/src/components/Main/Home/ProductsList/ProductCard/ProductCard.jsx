@@ -1,10 +1,18 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { addToCart } from "../../../../../redux/cart/cartActions";
 
 export default function ProductCard({ product, onProductClick }) {
   const { id_product, name, price, id_category, category, image, provider } = product;
+  const dispatch = useDispatch();
 
   const typeClass = `type-${id_category}`;
   
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    dispatch(addToCart(product));
+  };
+
   return (
     <article className={typeClass} onClick={() => onProductClick(product)}>
       <header>
@@ -17,6 +25,7 @@ export default function ProductCard({ product, onProductClick }) {
       </figure>
       <footer>
         <div className='provider'>Proveedor: {provider}</div>
+        <button onClick={handleAddToCart}>Añadir al carrito</button>
       </footer>
     </article>
   );

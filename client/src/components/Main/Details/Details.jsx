@@ -1,46 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { addToCart } from "../../../redux/cart/cartActions"; // Asegúrate de que la ruta sea correcta
 
-const Details = ({ details }) => {
-  const [product, setProduct] = useState(null);
+const Details = ({ product }) => {
   const [provider, setProvider] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const { id_product, id_provider } = details;
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchProductAndProvider = async () => {
-      setIsLoading(true);
-      setError(null);
+    const fetchProvider = async () => {
       try {
-        const productRes = await axios.get(`http://localhost:5000/api/products/id/${id_product}`);
-        const productData = productRes.data;
-        setProduct(productData);
-
-        const providerRes = await axios.get(`http://localhost:5000/api/providers/${id_provider}`);
+        const providerRes = await axios.get(`http://localhost:5000/api/providers/${product.id_provider}`);
         setProvider(providerRes.data);
       } catch (error) {
-        console.error("Error fetching product or provider data:", error);
-        setError("Failed to load data. Please try again.");
-      } finally {
-        setIsLoading(false);
+        console.error("Error fetching provider data:", error);
       }
     };
 
-    fetchProductAndProvider();
-  }, [id_product, id_provider]);
+    fetchProvider();
+  }, [product.id_provider]);
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
-  if (!product) return <p>No product data available.</p>;
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+  };
 
   return (
     <div className="details">
       <h1>{product.name}</h1>
       <p>Price: {product.price}€</p>
       <p>Category: {product.category}</p>
-      <img src={product.image} alt={product.name} loading="lazy" />
+      <img src={product.image} alt={product.name} />
+      <button onClick={handleAddToCart}>Añadir al carrito</button>
       {provider && (
         <>
           <h2>Provider Information</h2>

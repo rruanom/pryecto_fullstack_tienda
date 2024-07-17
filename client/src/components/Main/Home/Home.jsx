@@ -2,17 +2,14 @@ import React, { useState } from "react";
 import ProductSearch from "./ProductSearch/ProductSearch";
 import ProductsList from './ProductsList/ProductsList'
 import Details from '../Details/Details'
+import CartIcon from '../CartIcon/CartIcon' // Nuevo componente que crearemos
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const handleProductClick = (product) => {
-    console.log("Selected product:", product);
-    setSelectedProduct({
-      id_product: product.id_product,
-      id_provider: product.id_provider
-    });
+    setSelectedProduct(product);
   };
 
   const handleCloseDialog = () => {
@@ -21,6 +18,7 @@ const Home = () => {
 
   return (
     <div id="home">
+      <CartIcon /> {/* Añadimos el CartIcon aquí */}
       <section className="ProductSearchContainer">
         <ProductSearch setProducts={setProducts} />
       </section>
@@ -30,7 +28,7 @@ const Home = () => {
 
       {selectedProduct && (
         <dialog open>
-          <Details details={selectedProduct} />
+          <Details product={selectedProduct} />
           <button onClick={handleCloseDialog}>Cerrar</button>
         </dialog>
       )}
