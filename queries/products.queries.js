@@ -8,8 +8,14 @@ const queries = {
       AND ($1 = '' OR LOWER(c.name) LIKE LOWER('%' || $1 || '%'))
       AND ($2 = '' OR LOWER(prov.name) LIKE LOWER('%' || $2 || '%'))
       AND ($3 = '' OR LOWER(p.name) LIKE LOWER('%' || $3 || '%'))
-    ORDER BY RANDOM()
-    LIMIT $4 OFFSET $5;`,
+    ORDER BY 
+      CASE 
+        WHEN $6 = 'asc' THEN p.price
+        WHEN $6 = 'desc' THEN p.price * -1 
+        ELSE RANDOM()
+      END ASC
+    LIMIT $4 OFFSET $5;
+    `,
     //para hacer la paginacion de 10 en 10 en Home de manera aleatoria
     getTenProductsRandom: `
     SELECT p.name, p.image, p.price, p.id_category,

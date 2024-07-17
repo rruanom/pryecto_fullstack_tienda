@@ -1,24 +1,15 @@
-const product = require('../models/products.models');
+const product = require('../models/products.model');
 const { validationResult } = require("express-validator");
 
-/* const getTenProductsRandom = async (req, res) => {
-    const page = parseInt(req.params.page) || 0;
-    const offset = page * 10;
-    try {
-        const tenProductsRandom = await product.getTenProductsRandom(offset);
-        return res.status(200).json(tenProductsRandom);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-}; */
-
 const getProductsByFilters = async (req, res) => {
-    const { category = '', provider = '', keyword = '', page = 1 } = req.query;
+    const { category = '', provider = '', keyword = '', page = 1, priceOrder = '' } = req.query;
     const limit = 10;
     const offset = (page - 1) * limit;
 
+    console.log('Received request with params:', { category, provider, keyword, page, priceOrder }); // Log para debugging
+
     try {
-        const result = await product.getProductsByFilters(category, provider, keyword, page);
+        const result = await product.getProductsByFilters(category, provider, keyword, page, priceOrder);
         res.json(result);
     } catch (err) {
         console.error(err);

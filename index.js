@@ -18,7 +18,8 @@ const morgan = require("./middlewares/morgan");
 app.use(morgan(':method :url :status - :response-time ms :body'));
 
 //importar rutas
-const rutasProducts = require('./routes/products.routes');
+const productsRoutes = require('./routes/products.routes');
+const providerRoutes = require('./routes/provider.routes')
 
 app.use(express.json()); // Para habilitar recepción de datos JSON en una request
 
@@ -32,7 +33,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client/build')));; // Habilito la carpeta public para archivos estáticos
 
 //Rutas API
-app.use('/', rutasProducts);
+app.use('/products', productsRoutes);
+app.use('/providers', providerRoutes);
 
 //http://localhost:3000/api-docs/
 //app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
