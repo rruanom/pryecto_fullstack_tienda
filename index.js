@@ -19,7 +19,8 @@ app.use(morgan(':method :url :status - :response-time ms :body'));
 
 //importar rutas
 const productsRoutes = require('./routes/products.routes');
-const providerRoutes = require('./routes/provider.routes')
+const providerRoutes = require('./routes/provider.routes');
+const usersRoutes = require('./routes/users.routes');
 
 app.use(express.json()); // Para habilitar recepción de datos JSON en una request
 
@@ -35,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));; // Habilito la c
 //Rutas API
 app.use('/api/products', productsRoutes);
 app.use('/api/providers', providerRoutes);
+app.use('/api/users', usersRoutes);
 
 //http://localhost:3000/api-docs/
 //app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
