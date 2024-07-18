@@ -16,21 +16,23 @@ const getProductById = async (id) => {
     }
 };
 
-const getProductsByFilters = async (category, provider, keyword, page, priceOrder) => {
+const getProductsByFilters = async (category, provider, keyword, page, priceOrder, limit, offset) => {
     try {
         const client = await pool.connect();
-        const limit = 10;
-        const offset = (page - 1) * limit;
-        console.log('Executing query with params:', category, provider, keyword, limit, offset, priceOrder); // Log para debugging
+        console.log('Executing query with params:', category, provider, keyword, limit, offset, priceOrder);
         const data = await client.query(queries.getProductsByFilters, [category, provider, keyword, limit, offset, priceOrder]);
-        const list = data.rows;
         client.release();
-        return list;
+        
+        return {
+            products: data.rows,
+            totalCount: data.rows.length > 0 ? parseInt(data.rows[0].total_count) : 0
+        };
     } catch (err) {
         console.error('Error al obtener los productos por filtro', err);
         throw err;
     }
-}
+};
+
 const deleteProductByName = async (name) => {
     let client, result;
     try {

@@ -13,20 +13,25 @@ const getProductById = async (req, res) => {
 }
 
 const getProductsByFilters = async (req, res) => {
-    const { category = '', provider = '', keyword = '', page = 1, priceOrder = '' } = req.query;
-    const limit = 10;
+    const { category = '', provider = '', keyword = '', page = 1, priceOrder = '', limit = 10 } = req.query;
     const offset = (page - 1) * limit;
 
-    console.log('Received request with params:', { category, provider, keyword, page, priceOrder }); // Log para debugging
+    console.log('Received request with params:', { category, provider, keyword, page, priceOrder, limit });
 
     try {
-        const result = await product.getProductsByFilters(category, provider, keyword, page, priceOrder);
-        res.json(result);
+        const result = await product.getProductsByFilters(category, provider, keyword, parseInt(page), priceOrder, parseInt(limit), offset);
+        res.json({
+            products: result.products,
+            totalCount: result.totalCount,
+            currentPage: parseInt(page),
+            totalPages: Math.ceil(result.totalCount / limit)
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'An error occurred while fetching products' });
     }
-}
+};
+
 const deleteProduct = async (req, res) => {
     try {
         const name = req.params.name

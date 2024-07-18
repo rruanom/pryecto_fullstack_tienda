@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import ProductSearch from "./ProductSearch/ProductSearch";
-import ProductsList from './ProductsList/ProductsList'
+import ProductsList from './ProductsList/ProductsList';
 import Details from '../Details/Details';
+
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -17,13 +18,8 @@ const Home = () => {
 
   return (
     <div id="home">
-      <section className="ProductSearchContainer">
-        <ProductSearch setProducts={setProducts} />
-      </section>
-      <section className="ProductListContainer">
-        <ProductsList products={products} onProductClick={handleProductClick} />
-      </section>
-
+      <ProductSearch setProducts={setProducts} />
+      <ProductsList products={products} onProductClick={handleProductClick} />
       {selectedProduct && (
         <dialog open>
           <Details product={selectedProduct} />
@@ -33,5 +29,6 @@ const Home = () => {
     </div>
   );
 };
+
 
 export default Home;

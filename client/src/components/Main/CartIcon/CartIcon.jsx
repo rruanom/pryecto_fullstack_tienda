@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const CartIcon = () => {
-  const { numberItems } = useSelector(state => state.cart);
+  const numberItems = useSelector(state => state.cart.numberItems);
 
   return (
     <Link to="/cart" className="cart-icon">
