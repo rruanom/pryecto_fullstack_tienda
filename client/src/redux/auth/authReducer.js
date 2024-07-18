@@ -25,7 +25,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoggedIn: true,
-        user: action.payload,
+        user: action.payload, // Esto debe incluir la URL de la imagen del usuario
         loading: false,
         error: null
       };

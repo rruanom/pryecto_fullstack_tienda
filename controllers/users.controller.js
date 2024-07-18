@@ -82,7 +82,13 @@ const loginUser = async (req, res) => {
         if (match) {
             await user.setLoggedTrue(email);
             const { username, isadmin, islogged } = data;
-            const userForToken = { email, username, isadmin, islogged };
+            const userForToken = {
+                email: email,
+                username: username,
+                isadmin: isadmin,
+                islogged: islogged,
+                image: data.image
+              };
             const token = jwt.sign(userForToken, jwt_secret, { expiresIn: '20m' });
 
             res.cookie('access_token', token, { httpOnly: true, maxAge: 20 * 60 * 1000 });
