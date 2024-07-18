@@ -1,7 +1,10 @@
+import React from 'react';
 import { Link } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import burgerIcon from "../../../assets/burger-icon.png";
 
 const Nav = () => {
+  const { isLoggedIn, user } = useSelector(state => state.auth);
 
   return (
     <nav className={`navbar`}>
@@ -11,21 +14,39 @@ const Nav = () => {
         <li>
           <Link to="/">Home</Link>
         </li>
-        <li>
-          <Link to="/cart">Carrito</Link>
-        </li>
-        <li>
-          <Link to="/loggin">Acceder</Link>
-        </li>
-        <li>
-          <Link to="/options">Opciones</Link>
-        </li>
-        <li>
-          <Link to="/providers">Proveedores</Link>
-        </li>
-        <li>
-          <Link to="/users">usuarios</Link>
-        </li>
+        
+        {!isLoggedIn && (
+          <>
+            <li>
+              <Link to="/cart">Carrito</Link>
+            </li>
+            <li>
+              <Link to="/loggin">Acceder</Link>
+            </li>
+          </>
+        )}
+
+        {isLoggedIn && !user?.isAdmin && (
+          <>
+            <li>
+              <Link to="/cart">Carrito</Link>
+            </li>
+            <li>
+              <Link to="/options">Opciones</Link>
+            </li>
+          </>
+        )}
+
+        {isLoggedIn && user?.isAdmin && (
+          <>
+            <li>
+              <Link to="/users">Usuarios</Link>
+            </li>
+            <li>
+              <Link to="/providers">Proveedores</Link>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );

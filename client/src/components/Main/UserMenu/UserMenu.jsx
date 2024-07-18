@@ -16,6 +16,11 @@ const UserMenu = () => {
   return (
     <div className="user-menu">
       <button onClick={() => setIsOpen(!isOpen)}>👤</button>
+      {isLoggedIn && user && (
+        <div className="user-greeting">
+          Hola, {user.username}
+        </div>
+      )}
       {isOpen && (
         <div className="menu-content">
           {!isLoggedIn ? (
