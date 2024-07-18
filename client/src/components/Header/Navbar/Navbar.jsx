@@ -21,7 +21,7 @@ const Nav = () => {
               <Link to="/cart">Carrito</Link>
             </li>
             <li>
-              <Link to="/loggin">Acceder</Link>
+              <Link to="/login">Acceder</Link>
             </li>
           </>
         )}

@@ -28,11 +28,13 @@ app.use(morgan(':method :url :status - :response-time ms :body'));
 const productsRoutes = require('./routes/products.routes');
 const providerRoutes = require('./routes/provider.routes');
 const usersRoutes = require('./routes/users.routes');
+const categoriesRoutes = require('./routes/categories.routes');
 
 // Rutas API
 app.use('/api/products', productsRoutes);
 app.use('/api/providers', providerRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/categories', categoriesRoutes);
 
 // Servir archivos estáticos
 app.use(express.static(path.join(__dirname, 'client/dist')));

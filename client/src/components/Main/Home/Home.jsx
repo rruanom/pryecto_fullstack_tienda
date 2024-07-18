@@ -19,7 +19,11 @@ const Home = () => {
   return (
     <div id="home">
       <ProductSearch setProducts={setProducts} />
-      <ProductsList products={products} onProductClick={handleProductClick} />
+      <ProductsList 
+        products={products} 
+        onProductClick={handleProductClick} 
+        setProducts={setProducts}  // Añade esta línea
+      />
       {selectedProduct && (
         <dialog open>
           <Details product={selectedProduct} />
