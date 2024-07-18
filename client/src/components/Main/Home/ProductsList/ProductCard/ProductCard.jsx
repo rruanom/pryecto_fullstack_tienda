@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addToCart } from "../../../../../redux/cart/cartActions";
 
-export default function ProductCard({ product, onProductClick }) {
+const ProductCard = ({ product, onProductClick }) => {
   const { id_product, name, price, id_category, category, image, provider } = product;
   const dispatch = useDispatch();
 
@@ -30,4 +30,6 @@ export default function ProductCard({ product, onProductClick }) {
       </footer>
     </article>
   );
-}
+};
+
+export default ProductCard;

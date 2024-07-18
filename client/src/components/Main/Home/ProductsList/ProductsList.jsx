@@ -1,14 +1,13 @@
 import React from 'react';
 import ProductCard from './ProductCard/ProductCard';
-import { v4 as uuidv4 } from 'uuid';
 
-const ProductList = ({ products, onProductClick }) => {
+const ProductsList = ({ products, onProductClick }) => {
   return (
     <section className="productList">
-      {products.map((item) => (
+      {products.map((product) => (
         <ProductCard
-          key={uuidv4()}
-          product={item}
+          key={product.id_product}
+          product={product}
           onProductClick={onProductClick}
         />
       ))}
@@ -16,4 +15,4 @@ const ProductList = ({ products, onProductClick }) => {
   );
 };
 
-export default ProductList;
+export default ProductsList;

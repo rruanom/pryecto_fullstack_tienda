@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from 'axios';
+import Pagination from '../../Pagination/Pagination';
 
 const ProductSearch = ({ setProducts }) => {
   const refTime = useRef(null);
@@ -8,12 +9,14 @@ const ProductSearch = ({ setProducts }) => {
     provider: '',
     keyword: '',
     page: 1,
-    priceOrder: ''
+    priceOrder: '',
+    limit: 10
   });
 
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [providers, setProviders] = useState([]);
+  const [totalProducts, setTotalProducts] = useState(0);
 
   useEffect(() => {
     fetchProviders();
@@ -33,14 +36,6 @@ const ProductSearch = ({ setProducts }) => {
     }
   };
 
-  const providerList = () => {
-    return providers.map(provider => (
-      <option key={provider.id} value={provider.name}>
-        {provider.name}
-      </option>
-    ));
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === 'keyword') {
@@ -52,6 +47,13 @@ const ProductSearch = ({ setProducts }) => {
           page: 1
         }));
       }, 1000);
+    } else if (name === 'limit') {
+      const newLimit = value === '0' ? Number.MAX_SAFE_INTEGER : parseInt(value);
+      setObjectParams((prevParams) => ({
+        ...prevParams,
+        [name]: newLimit,
+        page: 1
+      }));
     } else {
       setObjectParams((prevParams) => ({
         ...prevParams,
@@ -67,16 +69,24 @@ const ProductSearch = ({ setProducts }) => {
       console.log('Fetching data with params:', objectParams);
       const res = await axios.get(`http://localhost:5000/api/products/page`, { params: objectParams });
       console.log("API response:", res.data);
-      setProducts(res.data);
+      setProducts(res.data.products);
+      setTotalProducts(res.data.totalCount);
       setMessage('');
     } catch (e) {
       console.error("Error fetching products:", e);
       setMessage("No hay ningún producto que coincida con tu búsqueda");
       setProducts([]);
+      setTotalProducts(0);
     } finally {
       setLoading(false);
     }
   };
+
+  const handlePageChange = (newPage) => {
+    setObjectParams(prev => ({ ...prev, page: newPage }));
+  };
+
+  const totalPages = Math.ceil(totalProducts / objectParams.limit);
 
   return (
     <article id='ProductSearch'>
@@ -128,8 +138,28 @@ const ProductSearch = ({ setProducts }) => {
             <option key="desc-price" value="desc">Mayor precio primero</option>
           </select>
         </div>
+        <div className="form-group limit">
+          <label htmlFor="limit">Productos por página:</label>
+          <select 
+            name="limit" 
+            value={objectParams.limit === Number.MAX_SAFE_INTEGER ? '0' : objectParams.limit} 
+            onChange={handleChange}
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="0">Todos</option>
+          </select>
+        </div>
       </form>
       {loading ? <p>Cargando...</p> : <p>{message}</p>}
+      <Pagination 
+        currentPage={objectParams.page}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+        limit={objectParams.limit}
+        totalProducts={totalProducts}
+      />
     </article>
   );
 };

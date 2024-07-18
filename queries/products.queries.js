@@ -1,11 +1,12 @@
 const queries = {
-    getProductById:`
+  getProductById: `
     SELECT *
     FROM products
     WHERE id_product = $1
     `,
-    getProductsByFilters: `
-    SELECT p.description, p.id_provider, p.id_product, p.name, p.image, p.price, p.id_category, c.name AS category, prov.name AS provider
+  getProductsByFilters: `
+    WITH filtered_products AS (
+    SELECT p.id_product
     FROM products p
     JOIN categories c ON p.id_category = c.id_category
     JOIN providers prov ON p.id_provider = prov.id_provider
@@ -13,16 +14,24 @@ const queries = {
       AND ($1 = '' OR LOWER(c.name) LIKE LOWER('%' || $1 || '%'))
       AND ($2 = '' OR LOWER(prov.name) LIKE LOWER('%' || $2 || '%'))
       AND ($3 = '' OR LOWER(p.name) LIKE LOWER('%' || $3 || '%'))
+    )
+    SELECT 
+    (SELECT COUNT(*) FROM filtered_products) AS total_count,
+    p.description, p.id_provider, p.id_product, p.name, p.image, p.price, p.id_category, c.name AS category, prov.name AS provider
+    FROM products p
+    JOIN categories c ON p.id_category = c.id_category
+    JOIN providers prov ON p.id_provider = prov.id_provider
+    WHERE p.id_product IN (SELECT id_product FROM filtered_products)
     ORDER BY 
-      CASE 
-        WHEN $6 = 'asc' THEN p.price
-        WHEN $6 = 'desc' THEN p.price * -1 
-        ELSE RANDOM()
-      END ASC
+    CASE 
+    WHEN $6 = 'asc' THEN p.price
+    WHEN $6 = 'desc' THEN p.price * -1 
+    ELSE RANDOM()
+    END ASC
     LIMIT $4 OFFSET $5;
     `,
-    //para hacer la paginacion de 10 en 10 en Home de manera aleatoria
-    getTenProductsRandom: `
+  //para hacer la paginacion de 10 en 10 en Home de manera aleatoria
+  getTenProductsRandom: `
     SELECT p.name, p.image, p.price, p.id_category,
     prov.name AS provider, c.name AS category
     FROM products p
@@ -31,19 +40,19 @@ const queries = {
     ORDER BY RANDOM()
     LIMIT 10 OFFSET $1;
     `,
-    updateProducts:
-        `SET
+  updateProducts:
+    `SET
     description = COALESCE($1, description),
     price = COALESCE($2, price),
     image = COALESCE($3, image),
     id_category = COALESCE((SELECT id_category FROM categories WHERE name = $4), id_category),
     id_provider = COALESCE((SELECT id_provider FROM providers WHERE name = $5), id_provider)
     WHERE name = $6;`,
-    deleteProduct: `
+  deleteProduct: `
     DELETE FROM products
     WHERE name = $1
     RETURNING *;`,
-    createProduct: `
+  createProduct: `
     INSERT INTO products (name, description, price, image, id_provider, id_category)
     SELECT $1, $2, $3, $4, p.id_provider, c.id_category
     FROM providers p

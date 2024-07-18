@@ -6,13 +6,7 @@ const Cart = () => {
     const dispatch = useDispatch();
     const { cartItems } = useSelector(state => state.cart);
 
-    const totalCart = cartItems && cartItems.length > 0
-        ? cartItems.reduce((total, item) => total + (item.price * item.quantity), 0)
-        : 0;
-
-    if (!cartItems || cartItems.length === 0) {
-        return <p>Tu carrito está vacío.</p>;
-    }
+    const totalCart = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
 
     return (
         <table className="table">
@@ -27,16 +21,16 @@ const Cart = () => {
                 </tr>
             </thead>
             <tbody>
-                {cartItems.map((item, i) => (
+                {cartItems.map((item) => (
                     <tr key={item.id_product}>
-                        <td><button onClick={() => dispatch(deleteCart(i))}>X</button></td>
+                        <td><button onClick={() => dispatch(deleteCart(item.id_product))}>X</button></td>
                         <td>{item.name}</td>
                         <td><img src={item.image} alt={item.name} style={{ width: '100px', height: '80px' }} /></td>
                         <td>{item.price} €</td>
                         <td>
-                            <button onClick={() => dispatch(decreaseQuantity(i))}>-</button>
+                            <button onClick={() => dispatch(decreaseQuantity(item.id_product))}>-</button>
                             <span>{item.quantity}</span>
-                            <button onClick={() => dispatch(increaseQuantity(i))}>+</button>
+                            <button onClick={() => dispatch(increaseQuantity(item.id_product))}>+</button>
                         </td>
                         <td><b>{(item.price * item.quantity).toFixed(2)} €</b></td>
                     </tr>
