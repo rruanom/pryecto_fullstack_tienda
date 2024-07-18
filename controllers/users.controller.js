@@ -72,61 +72,54 @@ const deleteUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-    let data;
     try {
         const { email, password } = req.body;
-        data = await user.existUser(email);
-        console.log(data);
+        const data = await user.existUser(email);
         if (!data) {
-            res.status(400).json({ msg: 'Incorrect user or password' });
+            return res.status(400).json({ msg: 'Incorrect user or password' });
+        }
+        const match = await bcrypt.compare(password, data.password);
+        if (match) {
+            await user.setLoggedTrue(email);
+            const { username, isadmin, islogged } = data;
+            const userForToken = {
+                email: email,
+                username: username,
+                isadmin: isadmin,
+                islogged: islogged,
+                image: data.image
+              };
+            const token = jwt.sign(userForToken, jwt_secret, { expiresIn: '20m' });
+
+            res.cookie('access_token', token, { httpOnly: true, maxAge: 20 * 60 * 1000 });
+            res.cookie('email', email, { httpOnly: true, maxAge: 20 * 60 * 1000 });
+
+            return res.status(200).json({ user: userForToken, token });
         } else {
-            const match = await bcrypt.compare(password, data.password);
-            if (match) {
-                await user.setLoggedTrue(req.body.email);
-                const { email, username, isadmin, islogged } = data;
-                const userForToken = {
-                    email: email,
-                    username: username,
-                    isadmin: isadmin,
-                    islogged: islogged
-                };
-                const token = jwt.sign(userForToken, jwt_secret, { expiresIn: '20m' });
-
-                // Set cookies
-                res.cookie('access_token', token, { httpOnly: true, maxAge: 20 * 60 * 1000 }); // 20 minutes
-                res.cookie('email', email, { httpOnly: true, maxAge: 20 * 60 * 1000 }); // 20 minutes
-
-                user.setLoggedTrue(email);
-
-                res.status(200).redirect('./');
-            } else {
-                res.status(400).json({ msg: 'Incorrect user or password' });
-            }
+            return res.status(400).json({ msg: 'Incorrect user or password' });
         }
     } catch (error) {
         console.log('Error:', error);
+        return res.status(500).json({ msg: 'Internal server error' });
     }
 };
 
 const logoutUser = async (req, res) => {
     try {
         const email = req.cookies.email;
-        console.log(email);
         if (!email) {
             return res.status(400).json({ msg: 'No user is logged in' });
         }
 
-        // Update the user's logged status in the database
         await user.setLoggedFalse(email);
 
-        // Clear the cookies
         res.clearCookie('access_token');
         res.clearCookie('email');
 
-        res.status(200).redirect('./');
+        return res.status(200).json({ msg: 'Logged out successfully' });
     } catch (error) {
         console.log('Error:', error);
-        res.status(500).json({ msg: 'Internal server error' });
+        return res.status(500).json({ msg: 'Internal server error' });
     }
 };
 

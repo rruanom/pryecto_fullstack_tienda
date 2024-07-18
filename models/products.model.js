@@ -47,20 +47,24 @@ const deleteProductByName = async (name) => {
     };
 }
 
-const createProduct = async (name, description, price, image, provider, category) => {
+const createProduct = async (productData) => {
+    const { name, description, price, image, id_provider, id_category } = productData;
     let client, result;
     try {
         client = await pool.connect();
-        const data = await client.query(queries.createProduct, [name, description, price, image, provider, category]);
-        console.log(data)
-        result = data.rows;
-        return result
+        const data = await client.query(queries.createProduct, [name, description, price, image, id_provider, id_category]);
+        console.log('Query result:', data);
+        result = data.rows[0]; // Cambiado de data.rows a data.rows[0]
+        return result;
     } catch (error) {
-        console.log(error);
+        console.error('Error in createProduct:', error);
         throw error;
-        ;
-    };
-}
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
+};
 
 const updateProduct = async (product) => {
     const { description, price, image, category, provider, name } = product;

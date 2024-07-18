@@ -35,7 +35,7 @@ CREATE TABLE products (
     id_provider int NOT NULL,
     FOREIGN KEY (id_category) REFERENCES categories(id_category) ON DELETE CASCADE,
     FOREIGN KEY (id_provider) REFERENCES providers(id_provider) ON DELETE CASCADE,
-    image varchar NOT NULL
+    image varchar(255) NOT NULL
 );
 
 

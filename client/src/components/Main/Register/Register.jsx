@@ -30,6 +30,11 @@ const Register = () => {
     dispatch(registerUser(userData))
       .then(() => {
         navigate('/');
+        alert(`Se ha registrado el usuario con username: ${username} e email: ${email}`);
+      })
+      .catch((error) => {
+        console.error('Error al registrar:', error);
+        alert('Hubo un error al registrar el usuario. Por favor, intente de nuevo.');
       });
   };
 

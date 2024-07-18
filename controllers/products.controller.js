@@ -46,15 +46,23 @@ const deleteProduct = async (req, res) => {
 
 const createProduct = async (req, res) => {
     try {
-        const { name, description, price, image, provider, category } = req.body
-        await product.createProduct(name, description, price, image, provider, category)
-        console.log(`se ha creador el producto ${name}`)
-        return res.status(200).json({ succes: `Se ha creador el producto ${name}` });
-
+      const { name, price, description, id_category, id_provider, image } = req.body;
+      console.log('Received product data:', { name, price, description, id_category, id_provider, image });
+      
+      const newProduct = await product.createProduct({ name, description, price, image, id_provider, id_category });
+      
+      console.log('New product created:', newProduct);
+      
+      if (newProduct) {
+        res.status(201).json(newProduct);
+      } else {
+        res.status(500).json({ message: 'Product was not created' });
+      }
     } catch (error) {
-        res.status(500).json({ error: error.message });
+      console.error('Error creating product:', error);
+      res.status(500).json({ message: 'Error creating product', error: error.message });
     }
-}
+  };
 
 const updateProduct = async (req, res) => {
     const modifiedProduct = req.body;

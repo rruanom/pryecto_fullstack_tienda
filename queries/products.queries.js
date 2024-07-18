@@ -54,9 +54,7 @@ const queries = {
     RETURNING *;`,
   createProduct: `
     INSERT INTO products (name, description, price, image, id_provider, id_category)
-    SELECT $1, $2, $3, $4, p.id_provider, c.id_category
-    FROM providers p
-    JOIN categories c ON p.name = $5 AND c.name = $6
+    VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *
     `
 }
