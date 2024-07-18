@@ -8,9 +8,9 @@ CREATE TABLE users (
   password varchar(255) NOT NULL,
   isadmin boolean NOT NULL DEFAULT FALSE,
   islogged boolean NOT NULL DEFAULT FALSE,
+  last_logged_date TIMESTAMPTZ NOT NULL,
   image varchar(255)
 );
-
 --create table categories
 CREATE TABLE categories (
     id_category serial NOT NULL PRIMARY KEY,
@@ -37,6 +37,37 @@ CREATE TABLE products (
     FOREIGN KEY (id_provider) REFERENCES providers(id_provider) ON DELETE CASCADE,
     image varchar NOT NULL
 );
+
+
+--Read todos los usuarios
+SELECT id_user, name, lastname, username, image, password, isadmin
+FROM users
+
+--Buscar ususarios por email
+SELECT id_user, name, lastname, username, image, password, isadmin
+FROM public.users
+WHERE email='email@jonas.com'
+
+--Crear usuario
+INSERT INTO public.users(name, lastname, username, email, password, image, isadmin, islogged)
+VALUES 
+('Tomás', 'T', 'tomy', 'email@tomas.com', '123456', 'imagentomas.jpg', false, false);
+
+--Actualizar usuarios por email
+UPDATE users 
+SET 
+    name='Jony',
+    lastname='Villanueva',
+    username='jonybravo',
+    email='email@jonas.com',
+    password='123456',
+    image='imagenjonas.jpg',
+    isadmin='false'
+WHERE email='email@jonas.com'
+
+--Borrar usuario
+DELETE FROM users
+WHERE email='email@jonas.com'
 
 -- add categories
 INSERT INTO categories (name)

@@ -2,11 +2,16 @@
   "name": "seeding_mongdb",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "server": "nodemon server/index.js",
-    "client": "npm run dev --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
-  },
+  "scripts": 
+    {
+      "server": "nodemon server/index.js",
+      "client": "npm run dev --prefix client",
+      "dev": "concurrently \"npm run server\" \"npm run client\"",
+      "start": "node server/index.js",
+      "build": "cd client && npm run build",
+      "install-client": "cd client && npm install",
+      "install-all": "npm install && npm run install-client"
+    },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -27,6 +32,7 @@
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "pg": "^8.12.0",
+    "redux-thunk": "^3.1.0",
     "supertest": "^7.0.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
