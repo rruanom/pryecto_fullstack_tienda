@@ -30,6 +30,7 @@ const Details = ({ product }) => {
       <p>Price: {product.price}€</p>
       <p>Category: {product.category}</p>
       <img src={product.image} alt={product.name} />
+      <p>{product.description}</p>
       <button onClick={handleAddToCart}>Añadir al carrito</button>
       {provider && (
         <>
