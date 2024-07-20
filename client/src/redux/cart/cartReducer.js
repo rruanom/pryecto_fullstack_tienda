@@ -1,4 +1,4 @@
-import { ADD_CART, INCREASE_QUANTITY, DECREASE_QUANTITY, DELETE_CART } from './cartTypes';
+import { ADD_CART, INCREASE_QUANTITY, DECREASE_QUANTITY, DELETE_CART, CLEAR_CART } from './cartTypes';
 
 const initialState = {
   numberItems: 0,
@@ -55,6 +55,13 @@ const cartReducer = (state = initialState, action) => {
         ...state,
         numberItems: state.numberItems - itemToDelete.quantity,
         cartItems: state.cartItems.filter(item => item.id_product !== action.payload)
+      };
+
+    case CLEAR_CART:  // Nuevo caso para limpiar el carrito
+      return {
+        ...state,
+        numberItems: 0,
+        cartItems: []
       };
 
     default:

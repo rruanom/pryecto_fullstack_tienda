@@ -1,11 +1,10 @@
+import axios from 'axios';
 import { 
   REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE,
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
   LOGOUT
 } from './authTypes';
-import axios from 'axios';
 
-// Acción para registrar un nuevo usuario
 export const registerUser = (userData) => {
   return async (dispatch) => {
     dispatch({ type: REGISTER_REQUEST });
@@ -13,7 +12,6 @@ export const registerUser = (userData) => {
       const response = await axios.post('/api/users/register', userData);
       dispatch({
         type: REGISTER_SUCCESS,
-        payload: response.data.user
       });
       return Promise.resolve(response.data);
     } catch (error) {
@@ -26,7 +24,6 @@ export const registerUser = (userData) => {
   };
 };
 
-// Acción para iniciar sesión
 export const loginUser = (credentials) => {
   return async (dispatch) => {
     dispatch({ type: LOGIN_REQUEST });
@@ -47,11 +44,10 @@ export const loginUser = (credentials) => {
   };
 };
 
-// Acción para cerrar sesión
 export const logoutUser = () => {
   return async (dispatch) => {
     try {
-      await axios.post('/api/users/logout');
+      await axios.post('/api/users/logout', {}, { withCredentials: true });
       dispatch({ type: LOGOUT });
     } catch (error) {
       console.error('Error during logout:', error);
@@ -59,36 +55,21 @@ export const logoutUser = () => {
   };
 };
 
-// Acción para verificar si el usuario está autenticado (útil al cargar la aplicación)
 export const checkAuthStatus = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get('/api/users/check-auth');
+      const response = await axios.get('/api/users/check-auth', { withCredentials: true });
       if (response.data.isAuthenticated) {
         dispatch({
           type: LOGIN_SUCCESS,
           payload: response.data.user
         });
+      } else {
+        dispatch({ type: LOGOUT });
       }
     } catch (error) {
       console.error('Error checking auth status:', error);
-    }
-  };
-};
-
-// Acción para actualizar la información del usuario
-export const updateUserInfo = (userData) => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.put('/api/users/update', userData);
-      dispatch({
-        type: LOGIN_SUCCESS, // Reutilizamos LOGIN_SUCCESS para actualizar la info del usuario
-        payload: response.data.user
-      });
-      return Promise.resolve(response.data);
-    } catch (error) {
-      console.error('Error updating user info:', error);
-      return Promise.reject(error);
+      dispatch({ type: LOGOUT });
     }
   };
 };

@@ -6,22 +6,23 @@ import burgerIcon from "../../../assets/burger-icon.png";
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isLoggedIn, user } = useSelector(state => state.auth);
+  const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(logoutUser());
     setIsOpen(false);
+    navigate('/');
   };
 
   return (
     <div className="user-menu">
       <div className="user-menu-container">
         <button onClick={() => setIsOpen(!isOpen)}>
-          {isLoggedIn && user?.image ? (
+          {auth.isLoggedIn && auth.user?.image ? (
             <img 
-              src={user.image} 
-              alt={user.username} 
+              src={auth.user.image} 
+              alt={auth.user.username} 
               className="user-icon"
               onError={(e) => {
                 e.target.onerror = null;
@@ -37,18 +38,18 @@ const UserMenu = () => {
             />
           )}
         </button>
-        {isLoggedIn && user && (
-          <span className="user-greeting">Hola, {user.username}</span>
+        {auth.isLoggedIn && auth.user && (
+          <span className="user-greeting">Hola, {auth.user.username}</span>
         )}
       </div>
       {isOpen && (
         <div className="menu-content">
-          {!isLoggedIn ? (
+          {!auth.isLoggedIn ? (
             <>
               <Link to="/login" onClick={() => setIsOpen(false)}>Login</Link>
               <Link to="/register" onClick={() => setIsOpen(false)}>Register</Link>
             </>
-          ) : user?.isAdmin ? (
+          ) : auth.user?.isAdmin ? (
             <>
               <Link to="/providers" onClick={() => setIsOpen(false)}>Providers</Link>
               <Link to="/categories" onClick={() => setIsOpen(false)}>Categories</Link>

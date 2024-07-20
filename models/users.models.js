@@ -1,12 +1,11 @@
-
 const { Pool } = require('pg');
 const pool = require('../config/db_pgsql');
-const queries = require('../queries/users.queries'); // Queries SQL
+const queries = require('../queries/users.queries');
 
 const getUserByEmail = async (email) => {
     let client, result;
     try {
-        client = await pool.connect(); // Espera a abrir conexion
+        client = await pool.connect();
         const data = await client.query(queries.getUserByEmail, [email]);
         result = data.rows;
     } catch (err) {
@@ -18,11 +17,10 @@ const getUserByEmail = async (email) => {
     return result;
 };
 
-
 const getNonAdminUsers = async () => {
     let client, result;
     try {
-        client = await pool.connect(); // Espera a abrir conexion
+        client = await pool.connect();
         const data = await client.query(queries.getNonAdminUsers);
         result = data.rows;
     } catch (err) {
@@ -34,14 +32,13 @@ const getNonAdminUsers = async () => {
     return result;
 };
 
-
 const createUser = async (user) => {
     const { name, lastname, username, email, password, image, isadmin, last_logged_date } = user;
     let client, result;
     try {
-        client = await pool.connect(); // Espera a abrir conexion
+        client = await pool.connect();
         const data = await client.query(queries.createUser, [name, lastname, username, email, password, image, isadmin, last_logged_date]);
-        result = data.rowCount;
+        result = data.rows[0]; // Devuelve el usuario creado
     } catch (err) {
         console.log(err);
         throw err;
@@ -73,7 +70,6 @@ const updateUser = async (user) => {
     return result;
 };
 
-
 const deleteUser = async (email) => {
     let client, result;
     try {
@@ -88,7 +84,6 @@ const deleteUser = async (email) => {
     }
     return result;
 };
-
 
 const existUser = async (email) => {
     let client, result;

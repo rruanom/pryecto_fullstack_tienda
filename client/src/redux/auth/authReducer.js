@@ -25,7 +25,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoggedIn: true,
-        user: action.payload, // Esto debe incluir la URL de la imagen del usuario
+        user: action.payload,
         loading: false,
         error: null
       };
@@ -38,7 +38,10 @@ const authReducer = (state = initialState, action) => {
       };
     case LOGOUT:
       return {
-        ...initialState
+        ...state,
+        isLoggedIn: false,
+        user: null,
+        error: null
       };
     default:
       return state;
