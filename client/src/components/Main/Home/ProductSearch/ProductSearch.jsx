@@ -89,7 +89,7 @@ const ProductSearch = ({ setProducts }) => {
   const totalPages = Math.ceil(totalProducts / objectParams.limit);
 
   return (
-    <article id='ProductSearch'>
+    <article className='product-search'>
       <form className="form">
         <div className="form-group search">
           <label htmlFor="keyword">Keyword:</label>

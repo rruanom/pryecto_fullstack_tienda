@@ -2,46 +2,73 @@
 @import '../utils/variables.scss';
 
 .user-menu {
-    position: relative;
-    
+  position: relative;
+
+  .user-menu-container {
+    display: flex;
+    align-items: center;
+
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .user-icon, .burger-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+
+    .user-greeting {
+      display: none;
+    }
+  }
+
+  .menu-content {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    border: 1px solid $secondary-color;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+    a, button {
+      display: block;
+      width: 100%;
+      padding: 8px;
+      text-align: left;
+      background: none;
+      border: none;
+      color: $text-color;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: $background-color;
+      }
+    }
+  }
+
+  @media (min-width: 750px) {
     .user-menu-container {
-      @include flex-center;
-      
-      button {
-        background: none;
-        border: none;
-        cursor: pointer;
-      }
-      
-      .user-icon, .burger-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-      }
-      
       .user-greeting {
+        display: block;
         margin-left: 10px;
         color: white;
       }
     }
-    
-    .menu-content {
-      position: absolute;
-      right: 0;
-      top: 100%;
-      background-color: white;
-      border: 1px solid $secondary-color;
-      border-radius: 4px;
-      padding: 10px;
-      
-      a, button {
-        display: block;
-        padding: 5px 10px;
-        color: $text-color;
-        text-decoration: none;
-        &:hover {
-          background-color: $secondary-color;
-        }
+  }
+
+  @media (min-width: 1000px) {
+    .user-menu-container {
+      .user-icon, .burger-icon {
+        width: 40px;
+        height: 40px;
       }
     }
   }
+}

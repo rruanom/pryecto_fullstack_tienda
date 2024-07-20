@@ -1,38 +1,70 @@
 @import '../utils/mixins.scss';
 @import '../utils/variables.scss';
 
-.productCard {
-    background-color: white;
+.product-card {
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    padding: 15px;
-    
-    .name {
-      color: $primary-color;
-      margin-bottom: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+
+    &:hover {
+        transform: translateY(-5px);
     }
-    
-    .price {
-      font-weight: bold;
-      color: $secondary-color;
+
+    header, footer {
+        padding: 10px;
     }
-    
+
+    h2 {
+        color: $text-color;
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+
+    .price, .category, .provider {
+        color: $text-color;
+        margin-bottom: 5px;
+    }
+
     img {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 4px;
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
     }
-    
+
     button {
-      background-color: $primary-color;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 4px;
-      cursor: pointer;
-      &:hover {
-        background-color: darken($primary-color, 10%);
-      }
+        width: 100%;
     }
-  }
+
+    // Category-specific backgrounds
+    &.type-1 { background-color: #e3f2fd; } // Agua y refrescos
+    &.type-2 { background-color: #fff3e0; } // Arroz, legumbres y pasta
+    &.type-3 { background-color: #f3e5f5; } // Bodega
+    &.type-4 { background-color: #ffebee; } // Carne
+    &.type-5 { background-color: #fff8e1; } // Cereales y galletas
+    &.type-6 { background-color: #fff9c4; } // Charcutería y quesos
+    &.type-7 { background-color: #e8f5e9; } // Fruta y verdura
+    &.type-8 { background-color: #fffde7; } // Huevos, leche y mantequilla
+    &.type-9 { background-color: #fff8e1; } // Pan y bollería
+    &.type-10 { background-color: #fff3e0; } // Pasta y arroz
+
+    @media (min-width: 750px) {
+        h2 {
+            font-size: 20px;
+        }
+
+        img {
+            height: 180px;
+        }
+    }
+
+    @media (min-width: 1000px) {
+        h2 {
+            font-size: 22px;
+        }
+
+        img {
+            height: 200px;
+        }
+    }
+}

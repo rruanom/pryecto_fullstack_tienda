@@ -38,7 +38,7 @@ const ProductsList = ({ products, onProductClick, setProducts }) => {
   };
 
   return (
-    <section className="productList">
+    <section className="produc-list">
       {isLoggedIn && user?.isAdmin && (
         <button onClick={() => setIsDialogOpen(true)}>Crear Nuevo Producto</button>
       )}

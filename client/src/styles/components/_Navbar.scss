@@ -2,17 +2,78 @@
 @import '../utils/variables.scss';
 
 .navbar {
-    ul {
-      list-style-type: none;
-      display: flex;
-      gap: 20px;
-      
-      li a {
+  position: relative;
+
+  #menu {
+    display: none;
+  }
+
+  label {
+    cursor: pointer;
+    display: block;
+    padding: 10px;
+    color: white;
+    font-size: 24px;
+  }
+
+  ul {
+    display: none;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    background-color: $primary-color;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+
+    li {
+      a {
+        display: block;
+        padding: 10px;
         color: white;
         text-decoration: none;
+        transition: background-color 0.3s;
+
         &:hover {
-          color: $accent-color;
+          background-color: darken($primary-color, 10%);
         }
       }
     }
   }
+
+  #menu:checked ~ ul {
+    display: block;
+  }
+
+  @media (min-width: 750px) {
+    label {
+      display: none;
+    }
+
+    ul {
+      display: flex;
+      position: static;
+      background-color: transparent;
+
+      li {
+        margin-right: 20px;
+
+        a {
+          padding: 0;
+
+          &:hover {
+            background-color: transparent;
+            color: $accent-color;
+          }
+        }
+      }
+    }
+  }
+
+  @media (min-width: 1000px) {
+    ul li {
+      margin-right: 30px;
+    }
+  }
+}
