@@ -1,19 +1,23 @@
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-//import './App.css'
+import { Provider } from 'react-redux';
+import store from './redux/store';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Main from './components/Main/Main';
+import AuthChecker from './components/Main/AuthChecker'; 
 
-//importamos contexto
 function App() {
   return (
-    <>
-      <BrowserRouter >
+    <Provider store={store}>
+      <BrowserRouter>
+        <AuthChecker /> 
         <Header />
         <Main />
+        <Footer />
       </BrowserRouter>
-      <Footer />
-    </>
-  )
+    </Provider>
+  );
 }
-export default App
+
+export default App;

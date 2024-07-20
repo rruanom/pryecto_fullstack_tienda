@@ -5,6 +5,7 @@ require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const morgan = require("./middlewares/morgan");
 const error404 = require("./middlewares/error404");
+require('./config/db_mongo');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -29,12 +30,14 @@ const productsRoutes = require('./routes/products.routes');
 const providerRoutes = require('./routes/provider.routes');
 const usersRoutes = require('./routes/users.routes');
 const categoriesRoutes = require('./routes/categories.routes');
+const oldCartsRoutes = require('./routes/oldCart.routes');
 
 // Rutas API
 app.use('/api/products', productsRoutes);
 app.use('/api/providers', providerRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/categories', categoriesRoutes);
+app.use('/api/oldcarts', oldCartsRoutes);
 
 // Servir archivos estáticos
 app.use(express.static(path.join(__dirname, 'client/dist')));

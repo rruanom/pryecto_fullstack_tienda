@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { addToCart } from "../../../redux/cart/cartActions"; // Asegúrate de que la ruta sea correcta
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from "../../../redux/cart/cartActions";
+import ProductEdit from '../Home/ProductsList/ProductCard/ProductEdit/ProductEdit';
 
-const Details = ({ product }) => {
+const Details = ({ product, onClose, onProductUpdated, onProductDeleted }) => {
   const [provider, setProvider] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
+  const { isLoggedIn, user } = useSelector(state => state.auth);
 
   useEffect(() => {
     const fetchProvider = async () => {
@@ -24,6 +27,34 @@ const Details = ({ product }) => {
     dispatch(addToCart(product));
   };
 
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:5000/api/products/product/${product.id_product}`);
+      onProductDeleted(product.id_product);
+      alert(`se ha borrado el producto ${product.name}`)
+      onClose();
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+
+  const handleUpdateSuccess = (updatedProduct) => {
+    onProductUpdated(updatedProduct);
+    setIsEditing(false);
+  };
+
+  if (isEditing) {
+    return <ProductEdit 
+      product={product} 
+      onUpdateSuccess={handleUpdateSuccess} 
+      onCancel={() => setIsEditing(false)} 
+    />;
+  }
+
   return (
     <div className="details">
       <h1>{product.name}</h1>
@@ -32,6 +63,12 @@ const Details = ({ product }) => {
       <img src={product.image} alt={product.name} />
       <p>{product.description}</p>
       <button onClick={handleAddToCart}>Añadir al carrito</button>
+      {isLoggedIn && user?.isAdmin && (
+        <>
+          <button onClick={handleEdit}>Editar</button>
+          <button onClick={handleDelete}>Borrar</button>
+        </>
+      )}
       {provider && (
         <>
           <h2>Provider Information</h2>

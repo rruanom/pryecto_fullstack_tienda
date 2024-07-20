@@ -1,15 +1,27 @@
 require('dotenv').config()
 const mongoose = require("mongoose");
 
-//mongoose.set('strictQuery', false);
-//const DATABASE_URL = "mongodb://localhost:27017/fakeshop";
-// mongoose.connect("mongodb://localhost:27017/local", { useNewUrlParser: true, useUnifiedTopology: true});
-mongoose.connect(process.env.MONGODB_ATLAS_CONNECTION);
+const connectWithRetry = () => {
+  console.log("Attempting to connect to MongoDB...");
+  mongoose.connect(process.env.MONGODB_ATLAS_CONNECTION, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 15000, // Aumentado a 15 segundos
+    socketTimeoutMS: 45000,
+  })
+  .then(() => console.log("MongoDB connection successful"))
+  .catch(err => {
+    console.error("MongoDB connection error:", err);
+    console.log("Retrying in 5 seconds...");
+    setTimeout(connectWithRetry, 5000);
+  });
+};
+
+connectWithRetry();
 
 const db = mongoose.connection;
 
-// Eventos
-db.on("error", error => console.log(error));
-db.once("open", () => console.log("connection to MongoDB established"));
+db.on("error", error => console.log("MongoDB connection error:", error));
+db.once("open", () => console.log("MongoDB connection established"));
 
 module.exports = mongoose;

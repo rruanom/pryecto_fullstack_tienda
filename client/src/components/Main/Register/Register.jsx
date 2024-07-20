@@ -29,8 +29,8 @@ const Register = () => {
     };
     dispatch(registerUser(userData))
       .then(() => {
-        navigate('/');
-        alert(`Se ha registrado el usuario con username: ${username} e email: ${email}`);
+        alert(`Se ha registrado el usuario con username: ${username} e email: ${email}. Por favor, inicie sesión.`);
+        navigate('/login');
       })
       .catch((error) => {
         console.error('Error al registrar:', error);

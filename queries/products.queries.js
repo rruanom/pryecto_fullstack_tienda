@@ -40,18 +40,23 @@ const queries = {
     ORDER BY RANDOM()
     LIMIT 10 OFFSET $1;
     `,
-  updateProducts:
-    `SET
-    description = COALESCE($1, description),
-    price = COALESCE($2, price),
-    image = COALESCE($3, image),
-    id_category = COALESCE((SELECT id_category FROM categories WHERE name = $4), id_category),
-    id_provider = COALESCE((SELECT id_provider FROM providers WHERE name = $5), id_provider)
-    WHERE name = $6;`,
+    updateProduct: `
+    UPDATE products
+    SET
+      description = COALESCE($1, description),
+      price = COALESCE($2::numeric, price),
+      image = COALESCE($3, image),
+      id_category = COALESCE((SELECT id_category FROM categories WHERE name = $4), id_category),
+      id_provider = COALESCE((SELECT id_provider FROM providers WHERE name = $5), id_provider),
+      name = COALESCE($6, name)
+    WHERE id_product = $7
+    RETURNING *;
+  `,
   deleteProduct: `
     DELETE FROM products
-    WHERE name = $1
-    RETURNING *;`,
+    WHERE id_product = $1
+    RETURNING *;
+    `,
   createProduct: `
     INSERT INTO products (name, description, price, image, id_provider, id_category)
     VALUES ($1, $2, $3, $4, $5, $6)

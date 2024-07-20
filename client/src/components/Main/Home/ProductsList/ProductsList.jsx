@@ -6,6 +6,7 @@ import axios from 'axios';
 
 const ProductsList = ({ products, onProductClick, setProducts }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { isLoggedIn, user } = useSelector(state => state.auth);
 
   const handleCreateProduct = async (newProduct) => {
     try {
@@ -38,7 +39,9 @@ const ProductsList = ({ products, onProductClick, setProducts }) => {
 
   return (
     <section className="productList">
-      <button onClick={() => setIsDialogOpen(true)}>Crear Nuevo Producto</button>
+      {isLoggedIn && user?.isAdmin && (
+        <button onClick={() => setIsDialogOpen(true)}>Crear Nuevo Producto</button>
+      )}
       {products.map((product) => (
         <ProductCard
           key={product.id_product}

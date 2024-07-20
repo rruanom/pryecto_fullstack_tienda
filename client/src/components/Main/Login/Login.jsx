@@ -15,6 +15,9 @@ const Login = () => {
     dispatch(loginUser({ email, password }))
       .then(() => {
         navigate('/');
+      })
+      .catch((error) => {
+        console.error('Error logging in:', error);
       });
   };
 
