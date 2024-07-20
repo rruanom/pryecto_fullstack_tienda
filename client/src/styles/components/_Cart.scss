@@ -1,0 +1,39 @@
+@import '../utils/mixins.scss';
+@import '../utils/variables.scss';
+
+.cart {
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      
+      th, td {
+        border: 1px solid $secondary-color;
+        padding: 10px;
+        text-align: left;
+      }
+      
+      th {
+        background-color: $secondary-color;
+        color: white;
+      }
+      
+      img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+      }
+    }
+    
+    button {
+      background-color: $primary-color;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 20px;
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+    }
+  }

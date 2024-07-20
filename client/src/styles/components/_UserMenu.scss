@@ -1,0 +1,47 @@
+@import '../utils/mixins.scss';
+@import '../utils/variables.scss';
+
+.user-menu {
+    position: relative;
+    
+    .user-menu-container {
+      @include flex-center;
+      
+      button {
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      
+      .user-icon, .burger-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+      }
+      
+      .user-greeting {
+        margin-left: 10px;
+        color: white;
+      }
+    }
+    
+    .menu-content {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background-color: white;
+      border: 1px solid $secondary-color;
+      border-radius: 4px;
+      padding: 10px;
+      
+      a, button {
+        display: block;
+        padding: 5px 10px;
+        color: $text-color;
+        text-decoration: none;
+        &:hover {
+          background-color: $secondary-color;
+        }
+      }
+    }
+  }

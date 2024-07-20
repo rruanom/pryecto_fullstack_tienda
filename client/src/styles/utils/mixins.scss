@@ -31,3 +31,8 @@
     box-shadow: 7px 7px 5px -1px $shadow-color;
 }
 
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

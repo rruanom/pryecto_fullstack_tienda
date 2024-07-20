@@ -33,7 +33,7 @@ const PreviousOrders = () => {
     };
 
     return (
-        <div>
+        <div className='previousOrders'>
             <h2>Pedidos Anteriores</h2>
             {previousCarts.map((cart, index) => (
                 <div key={index} onClick={() => handleLoadCart(cart)} style={{cursor: 'pointer'}}>

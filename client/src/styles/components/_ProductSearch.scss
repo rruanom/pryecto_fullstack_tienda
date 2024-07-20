@@ -1,0 +1,29 @@
+@import '../utils/mixins.scss';
+@import '../utils/variables.scss';
+
+.productSearch {
+    margin-bottom: 20px;
+    
+    .form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      
+      .form-group {
+        flex: 1;
+        min-width: 200px;
+        
+        label {
+          display: block;
+          margin-bottom: 5px;
+        }
+        
+        input, select {
+          width: 100%;
+          padding: 5px;
+          border: 1px solid $secondary-color;
+          border-radius: 4px;
+        }
+      }
+    }
+  }

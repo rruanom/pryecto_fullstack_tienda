@@ -42,7 +42,7 @@ const Cart = () => {
     };
 
     return (
-        <div>
+        <div className='navbar'>
             {cartItems.length === 0 ? (
                 <p>El carrito está vacío.</p>
             ) : (

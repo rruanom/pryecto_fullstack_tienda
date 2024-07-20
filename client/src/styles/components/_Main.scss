@@ -1,0 +1,13 @@
+@import '../utils/mixins.scss';
+@import '../utils/variables.scss';
+
+.main {
+    flex-grow: 1;
+    padding: 20px;
+    
+    h1 {
+      color: $primary-color;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  }

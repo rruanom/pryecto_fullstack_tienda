@@ -1,0 +1,10 @@
+@import '../utils/mixins.scss';
+@import '../utils/variables.scss';
+
+.App {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: $background-color;
+    color: $text-color;
+  }

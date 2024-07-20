@@ -1,0 +1,9 @@
+@import '../utils/mixins.scss';
+@import '../utils/variables.scss';
+
+.footer {
+    background-color: $primary-color;
+    color: white;
+    text-align: center;
+    padding: 10px;
+  }
