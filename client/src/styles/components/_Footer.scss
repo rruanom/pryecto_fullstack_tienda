@@ -2,10 +2,10 @@
 @import '../utils/variables.scss';
 
 footer {
+    width:100%;
     flex-shrink: 0;
     background-color: $primary-color;
     color: white;
     text-align: center;
-    padding: 10px;
     margin-top: auto;
 }

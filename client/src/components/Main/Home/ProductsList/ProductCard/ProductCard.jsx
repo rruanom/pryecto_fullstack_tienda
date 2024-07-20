@@ -15,20 +15,21 @@ const ProductCard = ({ product, onProductClick }) => {
   };
 
   return (
+    <div className='product-card'>
     <article className={typeClass} onClick={() => onProductClick(product)}>
       <header>
         <h2 className='name'>{name}</h2>
       </header>
-      <div className="price">Precio: {price}€</div>
-      <figure>
+      <div className='provider'>{provider}</div>
+      <figure className='imageProduct'>
         <img src={image} alt={`Image of ${category}`} />
-        <figcaption className='category'>{category}</figcaption>
       </figure>
       <footer>
-        <div className='provider'>Proveedor: {provider}</div>
+        <div className="price">{price}€</div>
         <button onClick={handleAddToCart}>Añadir al carrito</button>
       </footer>
     </article>
+    </div>
   );
 };
 

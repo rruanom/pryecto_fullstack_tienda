@@ -1,7 +1,7 @@
 @import '../utils/mixins.scss';
 @import '../utils/variables.scss';
 
-/* .product-list {
+.product-list {
     display: grid;
     grid-template-columns: 1fr;
     gap: 15px;
@@ -13,4 +13,4 @@
     @media (min-width: 1000px) {
         grid-template-columns: repeat(3, 1fr);
     }
-} */
+}

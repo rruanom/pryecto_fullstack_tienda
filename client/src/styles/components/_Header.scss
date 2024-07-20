@@ -2,17 +2,9 @@
 @import '../utils/variables.scss';
 
 .header {
+  width: 100%;
   background-color: $primary-color;
-  padding: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  @media (min-width: 750px) {
-    padding: 15px 20px;
-  }
-
-  @media (min-width: 1000px) {
-    padding: 20px 40px;
-  }
 }

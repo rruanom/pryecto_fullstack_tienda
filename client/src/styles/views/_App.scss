@@ -1,35 +1,16 @@
-@import '../utils/variables.scss';
-
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+#root {
+    width:100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 16px;
-  background-color: $background-color;
-  color: $text-color;
-  display: flex;
-  justify-content: center;
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.App {
-  width: 100%;
-  max-width: 1200px;
-  padding: 15px;
-  box-sizing: border-box;
-}
-
-@media (min-width: 750px) {
-  .App {
-    padding: 30px;
-  }
-}
-
-@media (min-width: 1000px) {
-  .App {
-    padding: 50px;
-  }
-}
