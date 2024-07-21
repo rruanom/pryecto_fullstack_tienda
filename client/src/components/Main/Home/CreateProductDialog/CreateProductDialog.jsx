@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Box from '@mui/material/Box';
+
 
 const CreateProductDialog = ({ isOpen, onClose, onSave }) => {
   const [product, setProduct] = useState({
@@ -59,74 +71,93 @@ const CreateProductDialog = ({ isOpen, onClose, onSave }) => {
     onSave(productToSave);
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="dialog-overlay">
-      <div className="dialog">
-        <h2>Crear Nuevo Producto</h2>
-        {error && <p className="error">{error}</p>}
-        <form onSubmit={handleSubmit}>
-          <input
+    <Dialog open={isOpen} onClose={onClose} maxWidth="sm" fullWidth className="create-product-dialog">
+      <DialogTitle>Crear Nuevo Producto</DialogTitle>
+      <DialogContent>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+          <TextField
+            fullWidth
+            margin="normal"
             name="name"
+            label="Nombre"
             value={product.name}
             onChange={handleChange}
-            placeholder="Nombre"
             required
           />
-          <input
+          <TextField
+            fullWidth
+            margin="normal"
             name="price"
+            label="Precio"
             type="number"
             value={product.price}
             onChange={handleChange}
-            placeholder="Precio"
             required
           />
-          <textarea
+          <TextField
+            fullWidth
+            margin="normal"
             name="description"
+            label="Descripción"
+            multiline
+            rows={4}
             value={product.description}
             onChange={handleChange}
-            placeholder="Descripción"
             required
           />
-          <input
+          <TextField
+            fullWidth
+            margin="normal"
             name="image"
+            label="URL de la imagen"
             value={product.image}
             onChange={handleChange}
-            placeholder="URL de la imagen"
             required
           />
-          <select
-            name="id_category"
-            value={product.id_category}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Selecciona una categoría</option>
-            {categories.map(category => (
-              <option key={category.id_category} value={category.id_category}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-          <select
-            name="id_provider"
-            value={product.id_provider}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Selecciona un proveedor</option>
-            {providers.map(provider => (
-              <option key={provider.id_provider} value={provider.id_provider}>
-                {provider.name}
-              </option>
-            ))}
-          </select>
-          <button type="submit">Guardar</button>
-          <button type="button" onClick={onClose}>Cancelar</button>
-        </form>
-      </div>
-    </div>
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="category-label">Categoría</InputLabel>
+            <Select
+              labelId="category-label"
+              name="id_category"
+              value={product.id_category}
+              onChange={handleChange}
+              required
+              label="Categoría"
+            >
+              {categories.map(category => (
+                <MenuItem key={category.id_category} value={category.id_category}>
+                  {category.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="provider-label">Proveedor</InputLabel>
+            <Select
+              labelId="provider-label"
+              name="id_provider"
+              value={product.id_provider}
+              onChange={handleChange}
+              required
+              label="Proveedor"
+            >
+              {providers.map(provider => (
+                <MenuItem key={provider.id_provider} value={provider.id_provider}>
+                  {provider.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Cancelar</Button>
+        <Button onClick={handleSubmit} variant="contained" color="primary">
+          Guardar
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

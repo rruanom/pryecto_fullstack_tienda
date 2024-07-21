@@ -1,2 +1,32 @@
-@import '../utils/mixins.scss';
-@import '../utils/variables.scss';
+.previousOrders {
+    .MuiAccordion-root {
+      margin-bottom: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  
+      &:before {
+        display: none;
+      }
+  
+      .MuiAccordionSummary-root {
+        background-color: #f5f5f5;
+      }
+  
+      .MuiAccordionDetails-root {
+        padding: 16px;
+      }
+    }
+  
+    .MuiButton-containedPrimary {
+      background-color: #4caf50;
+      &:hover {
+        background-color: #45a049;
+      }
+    }
+  
+    .MuiListItem-root {
+      border-bottom: 1px solid #e0e0e0;
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }

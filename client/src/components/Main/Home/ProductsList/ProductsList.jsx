@@ -42,14 +42,16 @@ const ProductsList = ({ products, onProductClick, setProducts }) => {
   return (
     <Box className="product-list">
       {isLoggedIn && user?.isAdmin && (
-        <Button 
-          variant="contained" 
-          color="primary" 
-          onClick={() => setIsDialogOpen(true)}
-          className="create-product-btn"
-        >
-          Crear Nuevo Producto
-        </Button>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            onClick={() => setIsDialogOpen(true)}
+            className="create-product-btn"
+          >
+            Crear Nuevo Producto
+          </Button>
+        </Box>
       )}
       <Box className="product-grid">
         {products.map((product) => (

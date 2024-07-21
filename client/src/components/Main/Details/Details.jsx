@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
 import ProductEdit from '../Home/ProductsList/ProductCard/ProductEdit/ProductEdit';
 
 const Details = ({ product, onClose, onProductUpdated, onProductDeleted }) => {
@@ -119,24 +120,35 @@ const Details = ({ product, onClose, onProductUpdated, onProductDeleted }) => {
             </>
           )}
         </CardContent>
-        <CardActions disableSpacing>
+        <CardActions sx={{ display: 'flex', justifyContent: 'space-between', padding: '16px' }}>
           <Button
             variant="contained"
             color="primary"
             onClick={handleAddToCart}
             className="details-button"
+            sx={{ color: 'white', backgroundColor: '#4caf50', '&:hover': { backgroundColor: '#45a049' } }}
           >
             Añadir al Carrito
           </Button>
           {isLoggedIn && user?.isAdmin && (
-            <>
-              <Button variant="outlined" color="primary" onClick={handleEdit} className="details-button">
+            <Box sx={{ display: 'flex', gap: '8px' }}>
+              <Button 
+                variant="outlined" 
+                onClick={handleEdit} 
+                className="details-button"
+                sx={{ color: '#4caf50', borderColor: '#4caf50', '&:hover': { borderColor: '#45a049' } }}
+              >
                 Editar
               </Button>
-              <Button variant="outlined" color="secondary" onClick={handleDelete} className="details-button">
+              <Button 
+                variant="outlined" 
+                onClick={handleDelete} 
+                className="details-button"
+                sx={{ color: '#f44336', borderColor: '#f44336', '&:hover': { borderColor: '#d32f2f' } }}
+              >
                 Eliminar
               </Button>
-            </>
+            </Box>
           )}
         </CardActions>
       </Card>
