@@ -51,7 +51,7 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // Ruta catch-all para SPA
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+    res.sendFile(path.join(__dirname, './client/dist/index.html'));
 });
 
 // Middleware para manejo de 404
