@@ -26,7 +26,7 @@ const Login = () => {
     try {
       await dispatch(loginUser({ email, password }));
       showSnackbar('Inicio de sesión exitoso', 'success');
-      navigate('/');
+      window.location.href = '/';
     } catch (error) {
       console.error('Error logging in:', error);
       showSnackbar('Error al iniciar sesión. Por favor, intenta de nuevo.', 'error');

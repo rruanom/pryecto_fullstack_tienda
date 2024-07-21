@@ -33,6 +33,7 @@ export const loginUser = (credentials) => {
         type: LOGIN_SUCCESS,
         payload: response.data.user
       });
+      window.location.href = '/';
       return Promise.resolve(response.data);
     } catch (error) {
       dispatch({
