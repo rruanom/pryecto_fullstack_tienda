@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../../../redux/auth/authActions';
-import { Link } from 'react-router-dom';
-import burgerIcon from "../../../assets/burger-icon.png";
+import { Link, useNavigate } from 'react-router-dom';
+import burgerIcon from "../../../assets/icono_usuario.png";
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logoutUser());

@@ -4,6 +4,7 @@
 .cart {
   padding: 20px;
   background-color: $background-color;
+  color: $text-color;
 
   table {
     width: 100%;
@@ -14,6 +15,7 @@
       border: 1px solid $secondary-color;
       padding: 10px;
       text-align: left;
+      color: $text-color;
     }
 
     th {
@@ -32,6 +34,10 @@
     @include button-style;
     margin-bottom: 10px;
     width: 100%;
+  }
+
+  p {
+    color: $text-color;
   }
 
   @media (min-width: 750px) {
@@ -56,4 +62,8 @@
       }
     }
   }
+}
+
+.cart p, .cart h1, .cart h2, .cart h3, .cart h4, .cart h5, .cart h6, .cart span, .cart div {
+  color: $text-color;
 }
