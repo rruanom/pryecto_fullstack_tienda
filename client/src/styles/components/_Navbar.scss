@@ -3,7 +3,6 @@
 
 .navbar {
   position: relative;
-  padding: 10px;
 
   .menu-icon {
     cursor: pointer;
@@ -40,19 +39,25 @@
       position: absolute;
       top: 100%;
       left: 0;
-      right: 0;
       z-index: 1000;
-      width: 100%;
+      min-width: 200px;
+      width: auto;
     }
 
     &.open ul {
       display: block;
-      width: 20vw
     }
 
-    ul li a {
+    ul li {
       width: 100%;
-      box-sizing: border-box;
+      
+      a {
+        width: 100%;
+        box-sizing: border-box;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
   }
 
