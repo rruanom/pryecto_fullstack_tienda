@@ -4,11 +4,7 @@
 .navbar {
   position: relative;
 
-  #menu {
-    display: none;
-  }
-
-  label {
+  .menu-icon {
     cursor: pointer;
     display: block;
     padding: 10px;
@@ -17,15 +13,10 @@
   }
 
   ul {
-    display: none;
     list-style-type: none;
     padding: 0;
     margin: 0;
     background-color: $primary-color;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
 
     li {
       a {
@@ -42,18 +33,35 @@
     }
   }
 
-  #menu:checked ~ ul {
-    display: block;
+  @media (max-width: 749px) {
+    ul {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      width: 100%;
+    }
+
+    &.open ul {
+      display: block;
+      width: 20vw
+    }
+
+    ul li a {
+      width: 100%;
+      box-sizing: border-box;
+    }
   }
 
   @media (min-width: 750px) {
-    label {
+    .menu-icon {
       display: none;
     }
 
     ul {
       display: flex;
-      position: static;
       background-color: transparent;
 
       li {

@@ -1,27 +1,64 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import burgerIcon from "../../../assets/burger-icon.png";
 
 const Nav = () => {
   const { isLoggedIn, user } = useSelector(state => state.auth);
+  const [isOpen, setIsOpen] = useState(false);
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 750) {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleMouseEnter = () => {
+    if (window.innerWidth < 750) {
+      setIsOpen(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (window.innerWidth < 750) {
+      setIsOpen(false);
+    }
+  };
+
+  const handleLinkClick = () => {
+    if (window.innerWidth < 750) {
+      setIsOpen(false);
+    }
+  };
 
   return (
-    <nav className={`navbar`}>
-      <input type="checkbox" id="menu" />
-      <label htmlFor="menu"><img src={`${burgerIcon}`} alt="burger" width="24px" /></label>
+    <nav 
+      className={`navbar ${isOpen ? 'open' : ''}`} 
+      ref={navRef} 
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className="menu-icon">
+        <img src={burgerIcon} alt="burger" width="24px" />
+      </div>
       <ul>
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/" onClick={handleLinkClick}>Home</Link>
         </li>
         
         {!isLoggedIn && (
           <>
             <li>
-              <Link to="/cart">Carrito</Link>
+              <Link to="/cart" onClick={handleLinkClick}>Carrito</Link>
             </li>
             <li>
-              <Link to="/login">Acceder</Link>
+              <Link to="/login" onClick={handleLinkClick}>Acceder</Link>
             </li>
           </>
         )}
@@ -29,10 +66,10 @@ const Nav = () => {
         {isLoggedIn && !user?.isAdmin && (
           <>
             <li>
-              <Link to="/cart">Carrito</Link>
+              <Link to="/cart" onClick={handleLinkClick}>Carrito</Link>
             </li>
             <li>
-              <Link to="/options">Opciones</Link>
+              <Link to="/options" onClick={handleLinkClick}>Opciones</Link>
             </li>
           </>
         )}
@@ -40,10 +77,10 @@ const Nav = () => {
         {isLoggedIn && user?.isAdmin && (
           <>
             <li>
-              <Link to="/users">Usuarios</Link>
+              <Link to="/users" onClick={handleLinkClick}>Usuarios</Link>
             </li>
             <li>
-              <Link to="/providers">Proveedores</Link>
+              <Link to="/providers" onClick={handleLinkClick}>Proveedores</Link>
             </li>
           </>
         )}

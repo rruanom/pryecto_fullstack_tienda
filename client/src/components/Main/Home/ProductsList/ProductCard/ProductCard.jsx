@@ -25,7 +25,7 @@ const ProductCard = ({ product, onProductClick }) => {
         <img src={image} alt={`Image of ${category}`} />
       </figure>
       <footer>
-        <div className="price">{price}€</div>
+        <div className="price"> <strong>{price}€</strong></div>
         <button onClick={handleAddToCart}>Añadir al carrito</button>
       </footer>
     </article>

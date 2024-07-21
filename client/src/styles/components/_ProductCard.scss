@@ -8,15 +8,47 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto;
+
+    @media (max-width: 749px) {
+        width: 80%;
+    }
 
     &:hover {
         transform: translateY(-5px);
     }
 
-    header, footer {
+    article {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        padding: 10px;
+    }
+
+    header {
         padding: 10px;
         text-align: center;
+        width: 100%;
+        flex-shrink: 0;
+    }
+
+    footer {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: $primary-color;
+        width: calc(100% + 20px);
+        margin-left: -10px;
+        margin-right: -10px;
+        padding: 10px;
+        margin-bottom: -10px;
     }
 
     h2 {
@@ -33,33 +65,31 @@
         justify-content: center;
     }
 
-    .price{
+    .price {
         color: $price-color;
     }
 
-    .imageProduct{
+    .imageProduct {
         width: 70%;
+        margin: 0 auto;
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
     }
 
     img {
-        width: 100%
+        width: 100%;
+        object-fit: contain;
+        max-height: 150px;
     }
 
     button {
-        width: 60%;
+        width: 80%;
+        padding: 8px 0;
+        margin-top: 10px;
     }
-
-    
-    &.type-1 { background-color: #7fcaff; } // Agua y refrescos
-    &.type-2 { background-color: #ffd798; } // Arroz, legumbres y pasta
-    &.type-3 { background-color: #f6beff; } // Bodega
-    &.type-4 { background-color: #ffaab7; } // Carne
-    &.type-5 { background-color: #e0caa0; } // Cereales y galletas
-    &.type-6 { background-color: #fff177; } // Charcutería y quesos
-    &.type-7 { background-color: #ffffff; } // Fruta y verdura
-    &.type-8 { background-color: #fffde7; } // Huevos, leche y mantequilla
-    &.type-9 { background-color: #ffe48b; } // Pan y bollería
-    &.type-10 { background-color: #fff3e0; } // Pasta y arroz
 
     @media (min-width: 750px) {
         h2 {

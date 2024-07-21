@@ -1,7 +1,7 @@
 //import React from "react";
 import { Route, Routes/* , Navigate */ } from "react-router-dom";
 import Home from "./Home/Home";
-import Cart from './Cart/PreviousOrders';
+import Cart from './Cart/Cart';
 import Login from '../Main/Login/Login';
 import Register from '../Main/Register/Register';
 

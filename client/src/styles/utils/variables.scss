@@ -5,3 +5,7 @@ $text-color: #33691e;
 $accent-color: #ffd54f;
 $error-color: #e57373;
 $price-color: black;
+
+:export {
+    primaryColor: $primary-color;
+  }
