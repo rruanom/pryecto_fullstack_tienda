@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../../../redux/auth/authActions';
 import { Link, useNavigate } from 'react-router-dom';
@@ -15,6 +15,10 @@ const UserMenu = () => {
     setIsOpen(false);
     navigate('/');
   };
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [auth.isLoggedIn]);
 
   return (
     <div className="user-menu">

@@ -21,6 +21,11 @@ const authReducer = (state = initialState, action) => {
         error: null
       };
     case REGISTER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null
+      };
     case LOGIN_SUCCESS:
       return {
         ...state,
