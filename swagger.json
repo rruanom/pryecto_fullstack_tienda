@@ -1,0 +1,727 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "E-commerce API",
+    "version": "1.0.0",
+    "description": "API para gestionar usuarios, productos, categorías, proveedores y carritos antiguos"
+  },
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Operaciones relacionadas con usuarios"
+    },
+    {
+      "name": "Products",
+      "description": "Operaciones relacionadas con productos"
+    },
+    {
+      "name": "Categories",
+      "description": "Operaciones relacionadas con categorías"
+    },
+    {
+      "name": "Providers",
+      "description": "Operaciones relacionadas con proveedores"
+    },
+    {
+      "name": "OldCarts",
+      "description": "Operaciones relacionadas con carritos antiguos"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "Obtener usuarios",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Email del usuario a buscar"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de usuarios obtenida con éxito"
+          }
+        }
+      },
+      "put": {
+        "summary": "Actualizar usuario",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuario actualizado con éxito"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar usuario",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuario eliminado con éxito"
+          }
+        }
+      }
+    },
+    "/users/register": {
+      "post": {
+        "summary": "Registrar nuevo usuario",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuario creado con éxito"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "summary": "Iniciar sesión",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Inicio de sesión exitoso"
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "summary": "Cerrar sesión",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "Sesión cerrada con éxito"
+          }
+        }
+      }
+    },
+    "/users/check-auth": {
+      "get": {
+        "summary": "Verificar estado de autenticación",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "Estado de autenticación verificado"
+          }
+        }
+      }
+    },
+    "/products/id/{id}": {
+      "get": {
+        "summary": "Obtener producto por ID",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Producto obtenido con éxito"
+          }
+        }
+      }
+    },
+    "/products/page": {
+      "get": {
+        "summary": "Obtener productos con filtros",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "category",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "provider",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "keyword",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "priceOrder",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Productos obtenidos con éxito"
+          }
+        }
+      }
+    },
+    "/products/product": {
+      "post": {
+        "summary": "Crear nuevo producto",
+        "tags": [
+          "Products"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Producto creado con éxito"
+          }
+        }
+      }
+    },
+    "/products/product/{id}": {
+      "put": {
+        "summary": "Actualizar producto",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Producto actualizado con éxito"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar producto",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Producto eliminado con éxito"
+          }
+        }
+      }
+    },
+    "/categories": {
+      "get": {
+        "summary": "Obtener todas las categorías",
+        "tags": [
+          "Categories"
+        ],
+        "responses": {
+          "200": {
+            "description": "Categorías obtenidas con éxito"
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear nueva categoría",
+        "tags": [
+          "Categories"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Categoría creada con éxito"
+          }
+        }
+      }
+    },
+    "/categories/{id}": {
+      "get": {
+        "summary": "Obtener categoría por ID",
+        "tags": [
+          "Categories"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categoría obtenida con éxito"
+          }
+        }
+      },
+      "put": {
+        "summary": "Actualizar categoría",
+        "tags": [
+          "Categories"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categoría actualizada con éxito"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar categoría",
+        "tags": [
+          "Categories"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categoría eliminada con éxito"
+          }
+        }
+      }
+    },
+    "/providers": {
+      "get": {
+        "summary": "Obtener todos los proveedores",
+        "tags": [
+          "Providers"
+        ],
+        "responses": {
+          "200": {
+            "description": "Proveedores obtenidos con éxito"
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear nuevo proveedor",
+        "tags": [
+          "Providers"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Provider"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Proveedor creado con éxito"
+          }
+        }
+      }
+    },
+    "/providers/{id}": {
+      "get": {
+        "summary": "Obtener proveedor por ID",
+        "tags": [
+          "Providers"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proveedor obtenido con éxito"
+          }
+        }
+      },
+      "put": {
+        "summary": "Actualizar proveedor",
+        "tags": [
+          "Providers"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Provider"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Proveedor actualizado con éxito"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar proveedor",
+        "tags": [
+          "Providers"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proveedor eliminado con éxito"
+          }
+        }
+      }
+    },
+    "/oldcarts/create-user": {
+      "post": {
+        "summary": "Crear usuario para carrito antiguo",
+        "tags": [
+          "OldCarts"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuario para carrito antiguo creado con éxito"
+          }
+        }
+      }
+    },
+    "/oldcarts": {
+      "post": {
+        "summary": "Guardar carrito antiguo",
+        "tags": [
+          "OldCarts"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OldCart"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Carrito antiguo guardado con éxito"
+          }
+        }
+      }
+    },
+    "/oldcarts/{email}": {
+      "get": {
+        "summary": "Obtener carritos antiguos por email",
+        "tags": [
+          "OldCarts"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Carritos antiguos obtenidos con éxito"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "isadmin": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id_category": {
+            "type": "integer"
+          },
+          "id_provider": {
+            "type": "integer"
+          },
+          "image": {
+            "type": "string"
+          }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Provider": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "cif": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          }
+        }
+      },
+      "OldCart": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "cart": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "product_id": {
+                  "type": "integer"
+                },
+                "quantity": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

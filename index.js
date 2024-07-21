@@ -5,6 +5,8 @@ require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const morgan = require("./middlewares/morgan");
 const error404 = require("./middlewares/error404");
+const swaggerUi = require('swagger-ui-express'); 
+const swaggerDocument = require('./swagger.json');
 require('./config/db_mongo');
 
 const app = express();
@@ -12,7 +14,7 @@ const port = process.env.PORT || 5000;
 
 // Configuración de CORS
 const corsOptions = {
-    origin: 'http://localhost:3000', // Reemplaza con la URL de tu frontend
+    origin: 'http://localhost:3000', 
     credentials: true,
 };
 app.use(cors(corsOptions));
@@ -38,6 +40,11 @@ app.use('/api/providers', providerRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/categories', categoriesRoutes);
 app.use('/api/oldcarts', oldCartsRoutes);
+
+//http://localhost:5000/api-docs/
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+//http://localhost:5000/api-jsdoc/
+app.use('/api-jsdoc', express.static(path.join(__dirname, '/jsondocs')));
 
 // Servir archivos estáticos
 app.use(express.static(path.join(__dirname, 'client/dist')));
