@@ -66,7 +66,7 @@ const Cart = () => {
                                 <td>{item.price} €</td>
                                 <td>
                                     <button onClick={() => dispatch(decreaseQuantity(item.id_product))}>-</button>
-                                    <span>  {item.quantity}  </span>
+                                    <span>  {item.quantity}    </span>
                                     <button onClick={() => dispatch(increaseQuantity(item.id_product))}>+</button>
                                 </td>
                                 <td><b>{(item.price * item.quantity).toFixed(2)} €</b></td>

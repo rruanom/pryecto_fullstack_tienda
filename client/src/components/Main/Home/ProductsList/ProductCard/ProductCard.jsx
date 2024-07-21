@@ -36,7 +36,7 @@ const ProductCard = ({ product, onProductClick }) => {
           {name}
         </Typography>
         <Typography variant="body2" color="text.secondary" className="product-provider">
-          Proveedor: {provider}
+          {provider}
         </Typography>
         <Typography variant="h6" className="product-price">
           <strong>{price}€</strong>

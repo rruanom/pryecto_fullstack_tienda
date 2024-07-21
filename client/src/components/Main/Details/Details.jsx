@@ -14,7 +14,6 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import ProductEdit from '../Home/ProductsList/ProductCard/ProductEdit/ProductEdit';
 
-
 const Details = ({ product, onClose, onProductUpdated, onProductDeleted }) => {
   const [provider, setProvider] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -80,17 +79,17 @@ const Details = ({ product, onClose, onProductUpdated, onProductDeleted }) => {
         style: { borderRadius: 16 }
       }}
     >
-      <Card>
+      <Card className="details">
         <CardHeader
           action={
             <IconButton aria-label="cerrar" onClick={onClose}>
-              <Button onClick={onClose} style={{ position: 'absolute', right: 8, top: 8 }}>
+              <Button onClick={onClose} className="details-button">
                 VOLVER
               </Button>
             </IconButton>
           }
-          title={product.name}
-          subheader={`Categoría: ${product.category}`}
+          title={<Typography variant="h2">{product.name}</Typography>}
+          subheader={<Typography variant="h6">{`${product.provider}`}</Typography>}
         />
         <CardMedia
           component="img"
@@ -108,7 +107,7 @@ const Details = ({ product, onClose, onProductUpdated, onProductDeleted }) => {
             Precio: {product.price}€
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Proveedor: {product.provider}
+            {product.category}
           </Typography>
           {provider && (
             <>
@@ -125,15 +124,16 @@ const Details = ({ product, onClose, onProductUpdated, onProductDeleted }) => {
             variant="contained"
             color="primary"
             onClick={handleAddToCart}
+            className="details-button"
           >
             Añadir al Carrito
           </Button>
           {isLoggedIn && user?.isAdmin && (
             <>
-              <Button variant="outlined" color="primary" onClick={handleEdit}>
+              <Button variant="outlined" color="primary" onClick={handleEdit} className="details-button">
                 Editar
               </Button>
-              <Button variant="outlined" color="secondary" onClick={handleDelete}>
+              <Button variant="outlined" color="secondary" onClick={handleDelete} className="details-button">
                 Eliminar
               </Button>
             </>
