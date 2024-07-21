@@ -4,6 +4,7 @@ import Home from "./Home/Home";
 import Cart from './Cart/Cart';
 import Login from '../Main/Login/Login';
 import Register from '../Main/Register/Register';
+import Users from './Users/Users'
 
 
 
@@ -18,6 +19,7 @@ const Main = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/users" element={<Users />} />
       </Routes>
     </main>
   );

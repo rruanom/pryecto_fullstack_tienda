@@ -1,0 +1,152 @@
+@import '../utils/mixins.scss';
+@import '../utils/variables.scss';
+
+.users-container {
+  padding: 20px;
+  background-color: $background-color;
+  color: black;
+
+  h2 {
+    color: $primary-color;
+    margin-bottom: 20px;
+  }
+
+  .create-user-btn {
+    @include button-style;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+
+  .users-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+
+    th, td {
+      border: 1px solid $secondary-color;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: $primary-color;
+      color: white;
+    }
+
+    td {
+      background-color: white;
+      color: black;
+    }
+
+    .edit-btn, .delete-btn {
+      @include button-style;
+      padding: 5px 10px;
+      margin: 2px;
+      width: 100%;
+    }
+
+    .delete-btn {
+      background-color: $error-color;
+    }
+  }
+
+  .user-form {
+    background-color: white;
+    border: 1px solid $secondary-color;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    input {
+      display: block;
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid $secondary-color;
+      border-radius: 4px;
+      background-color: white;
+      color: black;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+      button {
+        @include button-style;
+        margin: 5px;
+        flex: 1;
+      }
+    }
+  }
+
+  .user-edit-form {
+    border: 2px solid $primary-color;
+  }
+
+  .user-create-form {
+    border: 2px solid $accent-color;
+  }
+}
+
+@media (min-width: 768px) {
+  .users-container {
+    .create-user-btn {
+      width: auto;
+    }
+
+    .users-table {
+      .edit-btn, .delete-btn {
+        width: auto;
+      }
+    }
+
+    .user-form {
+      .form-actions {
+        justify-content: flex-end;
+
+        button {
+          flex: 0 1 auto;
+          min-width: 100px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .users-container {
+    .users-table {
+      font-size: 14px;
+
+      th {
+        display: none;
+      }
+
+      td {
+        display: block;
+        padding: 5px;
+        text-align: right;
+        position: relative;
+        padding-left: 50%;
+
+        &:before {
+          content: attr(data-label);
+          position: absolute;
+          left: 6px;
+          width: 45%;
+          padding-right: 10px;
+          white-space: nowrap;
+          font-weight: bold;
+        }
+      }
+
+      tr {
+        margin-bottom: 10px;
+        display: block;
+        border: 1px solid $secondary-color;
+      }
+    }
+  }
+}
