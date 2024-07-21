@@ -1,9 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Button, Box, Typography, createTheme, ThemeProvider } from '@mui/material';
 import UserEditForm from './UserEditForm/UserEditForm';
 import UserCreateForm from './UserCreateForm/UserCreateForm';
 import UserTable from './UserTable/UserTable';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#4CAF50',
+    },
+    secondary: {
+      main: '#81C784',
+    },
+    error: {
+      main: '#E57373',
+    },
+  },
+});
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -67,23 +81,25 @@ const Users = () => {
   if (error) return <Typography color="error">{error}</Typography>;
 
   return (
-    <Box sx={{ maxWidth: 800, margin: 'auto', mt: 4 }}>
-      <Typography variant="h4" gutterBottom>Lista de Usuarios</Typography>
-      <Button variant="contained" color="primary" onClick={() => setIsCreating(true)} sx={{ mb: 2 }}>
-        Crear Nuevo Usuario
-      </Button>
-      {isCreating && (
-        <UserCreateForm onSave={handleCreateUser} onCancel={() => setIsCreating(false)} />
-      )}
-      <UserTable 
-        users={users} 
-        editingUser={editingUser} 
-        onEdit={handleEdit} 
-        onDelete={handleDelete}
-        onUpdate={handleUpdateUser}
-        onCancelEdit={() => setEditingUser(null)}
-      />
-    </Box>
+    <ThemeProvider theme={theme}>
+      <Box sx={{ maxWidth: 800, margin: 'auto', mt: 4 }}>
+        <Typography variant="h4" gutterBottom>Lista de Usuarios</Typography>
+        <Button variant="contained" color="primary" onClick={() => setIsCreating(true)} sx={{ mb: 2 }}>
+          Crear Nuevo Usuario
+        </Button>
+        {isCreating && (
+          <UserCreateForm onSave={handleCreateUser} onCancel={() => setIsCreating(false)} />
+        )}
+        <UserTable 
+          users={users} 
+          editingUser={editingUser} 
+          onEdit={handleEdit} 
+          onDelete={handleDelete}
+          onUpdate={handleUpdateUser}
+          onCancelEdit={() => setEditingUser(null)}
+        />
+      </Box>
+    </ThemeProvider>
   );
 };
 

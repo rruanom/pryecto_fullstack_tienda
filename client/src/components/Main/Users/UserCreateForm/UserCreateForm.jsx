@@ -1,6 +1,24 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box } from '@mui/material';
-import { validatePrice, validateImageUrl } from '../../../../utils/regexValidations';
+import { styled } from '@mui/material/styles';
+import { validateName, validateUsername, validateEmail, validatePassword, validateImageUrl } from '../../../../utils/regexValidations';
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  margin: theme.spacing(1),
+  '&.MuiButton-containedPrimary': {
+    backgroundColor: theme.palette.primary.main,
+    '&:hover': {
+      backgroundColor: theme.palette.primary.dark,
+    },
+  },
+  '&.MuiButton-outlined': {
+    color: theme.palette.primary.main,
+    borderColor: theme.palette.primary.main,
+    '&:hover': {
+      backgroundColor: theme.palette.primary.light,
+    },
+  },
+}));
 
 const UserCreateForm = ({ onSave, onCancel }) => {
   const [newUser, setNewUser] = useState({
@@ -22,12 +40,12 @@ const UserCreateForm = ({ onSave, onCancel }) => {
   const validateForm = () => {
     let formErrors = {};
     
-    if (!regex.validateName(newUser.name)) formErrors.name = "Nombre inválido";
-    if (!regex.validateName(newUser.lastname)) formErrors.lastname = "Apellido inválido";
-    if (!regex.validateUsername(newUser.username)) formErrors.username = "Nombre de usuario inválido";
-    if (!regex.validateEmail(newUser.email)) formErrors.email = "Email inválido";
-    if (!regex.validatePassword(newUser.password)) formErrors.password = "Contraseña inválida";
-    if (newUser.image && !regex.validateImageUrl(newUser.image)) formErrors.image = "URL de imagen inválida";
+    if (!validateName(newUser.name)) formErrors.name = "Nombre inválido";
+    if (!validateName(newUser.lastname)) formErrors.lastname = "Apellido inválido";
+    if (!validateUsername(newUser.username)) formErrors.username = "Nombre de usuario inválido";
+    if (!validateEmail(newUser.email)) formErrors.email = "Email inválido";
+    if (!validatePassword(newUser.password)) formErrors.password = "Contraseña inválida";
+    if (newUser.image && !validateImageUrl(newUser.image)) formErrors.image = "URL de imagen inválida";
 
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
@@ -109,12 +127,12 @@ const UserCreateForm = ({ onSave, onCancel }) => {
         error={!!errors.image}
         helperText={errors.image}
       />
-      <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+      <StyledButton type="submit" fullWidth variant="contained" color="primary" sx={{ mt: 3, mb: 2 }}>
         Crear Usuario
-      </Button>
-      <Button fullWidth variant="outlined" onClick={onCancel} sx={{ mb: 2 }}>
+      </StyledButton>
+      <StyledButton fullWidth variant="outlined" onClick={onCancel} sx={{ mb: 2 }}>
         Cancelar
-      </Button>
+      </StyledButton>
     </Box>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { validatePrice, validateImageUrl } from '../../../../utils/regexValidations';
+import { validateName, validateUsername, validateEmail, validateImageUrl } from '../../../../utils/regexValidations';
 
 const StyledButton = styled(Button)(({ theme }) => ({
   margin: theme.spacing(1),
