@@ -4,10 +4,10 @@ import UserMenu from '../Main/UserMenu/UserMenu';
 
 const Header = () => {
 
-  return <header className={`header`}>
+  return <header className='header'>
+    <UserMenu />
     <Navbar/>
     <CartIcon />
-    <UserMenu />
     </header>;
 };
 

@@ -1,0 +1,40 @@
+.create-product-dialog {
+    .MuiDialog-paper {
+      background-color: #f5f5f5;
+    }
+  
+    .MuiDialogTitle-root {
+      background-color: #4caf50;
+      color: white;
+    }
+  
+    .MuiTextField-root, .MuiFormControl-root {
+      .MuiOutlinedInput-root {
+        &.Mui-focused .MuiOutlinedInput-notchedOutline {
+          border-color: #4caf50;
+        }
+      }
+  
+      .MuiInputLabel-root {
+        &.Mui-focused {
+          color: #4caf50;
+        }
+      }
+    }
+  
+    .MuiSelect-icon {
+      color: #4caf50;
+    }
+  
+    .MuiButton-containedPrimary {
+      background-color: #4caf50;
+      &:hover {
+        background-color: #45a049;
+      }
+    }
+  
+    .MuiInputLabel-shrink {
+      background-color: #f5f5f5;
+      padding: 0 4px;
+    }
+  }

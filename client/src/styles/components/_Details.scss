@@ -1,0 +1,32 @@
+@import '../utils/mixins.scss';
+@import '../utils/variables.scss';
+
+.details {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+
+  h1, h2 {
+    color: $primary-color;
+  }
+
+  .details-button {
+    background-color: $primary-color;
+    color: white;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+
+  a {
+    color: $primary-color;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

@@ -17,6 +17,7 @@ const ProductSearch = ({ setProducts }) => {
   const [loading, setLoading] = useState(false);
   const [providers, setProviders] = useState([]);
   const [totalProducts, setTotalProducts] = useState(0);
+  const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
     fetchProviders();
@@ -89,67 +90,73 @@ const ProductSearch = ({ setProducts }) => {
   const totalPages = Math.ceil(totalProducts / objectParams.limit);
 
   return (
-    <article id='ProductSearch'>
+    <article className='product-search'>
       <form className="form">
         <div className="form-group search">
-          <label htmlFor="keyword">Keyword:</label>
+          <label htmlFor="keyword"></label>
           <input
             type="text"
             name="keyword"
             onChange={handleChange}
+            placeholder="Buscar productos..."
           />
         </div>
-        <div className="form-group category">
-          <label htmlFor="category">Category:</label>
-          <select name="category" onChange={handleChange}>
-            <option key="default-category" value="">Selecciona una categoría</option>
-            {[
-              "Agua y refrescos",
-              "Arroz, legumbres y pasta",
-              "Bodega",
-              "Carne",
-              "Cereales y galletas",
-              "Charcutería y quesos",
-              "Fruta y verdura",
-              "Huevos, leche y mantequilla",
-              "Pan y bollería",
-              "Pasta y arroz",
-            ].map((category) => (
-              <option key={category} value={category}>{category}</option>
-            ))}
-          </select>
-        </div>
-        <div className="form-group provider">
-          <label htmlFor="provider">Provider:</label>
-          <select name="provider" onChange={handleChange} value={objectParams.provider}>
-            <option key="default-provider" value="">Selecciona un proveedor</option>
-            {providers.map((provider, index) => (
-              <option key={`${index}-${provider.name}`} value={provider.name}>
-                {provider.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="form-group price-order">
-          <label htmlFor="priceOrder">Orden de precio:</label>
-          <select name="priceOrder" onChange={handleChange}>
-            <option key="default-price" value="">Sin orden</option>
-            <option key="asc-price" value="asc">Menor precio primero</option>
-            <option key="desc-price" value="desc">Mayor precio primero</option>
-          </select>
-        </div>
-        <div className="form-group limit">
-          <label htmlFor="limit">Productos por página:</label>
-          <select 
-            name="limit" 
-            value={objectParams.limit === Number.MAX_SAFE_INTEGER ? '0' : objectParams.limit} 
-            onChange={handleChange}
-          >
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="0">Todos</option>
-          </select>
+        <button type="button" className="more-filters" onClick={() => setShowFilters(!showFilters)}>
+          {showFilters ? 'Menos filtros' : 'Más filtros'}
+        </button>
+        <div className={`additional-filters ${showFilters ? 'show' : ''}`}>
+          <div className="form-group category">
+            <label htmlFor="category">Categoria:</label>
+            <select name="category" onChange={handleChange}>
+              <option key="default-category" value="">Selecciona una categoría</option>
+              {[
+                "Agua y refrescos",
+                "Arroz, legumbres y pasta",
+                "Bodega",
+                "Carne",
+                "Cereales y galletas",
+                "Charcutería y quesos",
+                "Fruta y verdura",
+                "Huevos, leche y mantequilla",
+                "Pan y bollería",
+                "Pasta y arroz",
+              ].map((category) => (
+                <option key={category} value={category}>{category}</option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group provider">
+            <label htmlFor="provider">Proveedor:</label>
+            <select name="provider" onChange={handleChange} value={objectParams.provider}>
+              <option key="default-provider" value="">Selecciona un proveedor</option>
+              {providers.map((provider, index) => (
+                <option key={`${index}-${provider.name}`} value={provider.name}>
+                  {provider.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group price-order">
+            <label htmlFor="priceOrder">Orden de precio:</label>
+            <select name="priceOrder" onChange={handleChange}>
+              <option key="default-price" value="">Sin orden</option>
+              <option key="asc-price" value="asc">Menor precio primero</option>
+              <option key="desc-price" value="desc">Mayor precio primero</option>
+            </select>
+          </div>
+          <div className="form-group limit">
+            <label htmlFor="limit">Productos por página:</label>
+            <select 
+              name="limit" 
+              value={objectParams.limit === Number.MAX_SAFE_INTEGER ? '0' : objectParams.limit} 
+              onChange={handleChange}
+            >
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="0">Todos</option>
+            </select>
+          </div>
         </div>
       </form>
       {loading ? <p>Cargando...</p> : <p>{message}</p>}

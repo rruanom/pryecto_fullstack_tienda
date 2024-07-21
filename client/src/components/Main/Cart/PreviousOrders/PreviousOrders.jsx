@@ -2,6 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearCart, addToCart } from "../../../../redux/cart/cartActions";
 import axios from 'axios';
+import {
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Paper,
+  Box,
+  Button
+} from '@mui/material';
 
 const PreviousOrders = () => {
     const [previousCarts, setPreviousCarts] = useState([]);
@@ -32,17 +44,56 @@ const PreviousOrders = () => {
         }
     };
 
+    const calculateTotal = (products) => {
+        return products.reduce((total, product) => total + (product.price * product.quantity), 0).toFixed(2);
+    };
+
     return (
-        <div>
-            <h2>Pedidos Anteriores</h2>
-            {previousCarts.map((cart, index) => (
-                <div key={index} onClick={() => handleLoadCart(cart)} style={{cursor: 'pointer'}}>
-                    <h3>Pedido del {new Date(cart.date).toLocaleDateString()}</h3>
-                    <p>Número de productos: {cart.products.length}</p>
-                    <p>Precio final: {cart.products.reduce((total, product) => total + (product.price * product.quantity), 0).toFixed(2)}€</p>
-                </div>
-            ))}
-        </div>
+        <Box className='previousOrders' sx={{ maxWidth: 800, margin: 'auto', mt: 4 }}>
+            <Typography variant="h4" gutterBottom>
+                Pedidos Anteriores
+            </Typography>
+            <List>
+                {previousCarts.map((cart, index) => (
+                    <Accordion key={index}>
+                        <AccordionSummary
+                            aria-controls={`panel${index}a-content`}
+                            id={`panel${index}a-header`}
+                        >
+                            <Typography>
+                                Pedido del {new Date(cart.date).toLocaleDateString()} - 
+                                Total: {calculateTotal(cart.products)}€
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Paper elevation={3} sx={{ p: 2 }}>
+                                <Typography variant="body1">
+                                    Número de productos: {cart.products.length}
+                                </Typography>
+                                <List>
+                                    {cart.products.map((product, productIndex) => (
+                                        <ListItem key={productIndex}>
+                                            <ListItemText
+                                                primary={product.name}
+                                                secondary={`Cantidad: ${product.quantity} - Precio: ${product.price}€`}
+                                            />
+                                        </ListItem>
+                                    ))}
+                                </List>
+                                <Button 
+                                    variant="contained" 
+                                    color="primary" 
+                                    onClick={() => handleLoadCart(cart)}
+                                    sx={{ mt: 2 }}
+                                >
+                                    Cargar este pedido
+                                </Button>
+                            </Paper>
+                        </AccordionDetails>
+                    </Accordion>
+                ))}
+            </List>
+        </Box>
     );
 };
 

@@ -1,17 +1,10 @@
-@import "../utils/variables.scss";
+@import '../utils/mixins.scss';
+@import '../utils/variables.scss';
 
-%header {
-    min-height: 5vh;
-    display: flex;
-    align-items: center;
-}
-
-.header-day{
-    @extend %header;
-    background-color: $blue;
-}
-
-.header-night{
-    @extend %header;
-    background-color: $dark-blue;
+.header {
+  width: 100%;
+  background-color: $primary-color;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }

@@ -1,0 +1,57 @@
+@import '../utils/mixins.scss';
+@import '../utils/variables.scss';
+
+.product-card {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  margin: 0 auto; 
+  border: 1px solid $primary-color;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 128, 0, 0.1);
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 128, 0, 0.15);
+  }
+
+  .product-image {
+    height: 200px;
+    object-fit: contain;
+    padding-top: 1rem;
+  }
+
+  .product-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+
+    .product-name {
+      margin-bottom: 0.5rem;
+    }
+
+    .product-provider {
+      margin-bottom: 0.5rem;
+    }
+
+    .product-price {
+      margin-top: auto;
+    }
+  }
+
+  .product-actions {
+    padding: 1rem;
+
+    .add-to-cart-btn {
+      background-color: $primary-color;
+      color: white;
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+    }
+  }
+}
