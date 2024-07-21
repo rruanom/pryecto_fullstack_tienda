@@ -2,16 +2,15 @@
   "name": "seeding_mongdb",
   "version": "1.0.0",
   "private": true,
-  "scripts": 
-    {
-      "server": "nodemon server/index.js",
-      "client": "npm run dev --prefix client",
-      "dev": "concurrently \"npm run server\" \"npm run client\"",
-      "start": "node server/index.js",
-      "build": "cd client && npm run build",
-      "install-client": "cd client && npm install",
-      "install-all": "npm install && npm run install-client"
-    },
+  "scripts": {
+    "server": "nodemon server/index.js",
+    "client": "npm run dev --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "node server/index.js",
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "install-all": "npm install && npm run install-client"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

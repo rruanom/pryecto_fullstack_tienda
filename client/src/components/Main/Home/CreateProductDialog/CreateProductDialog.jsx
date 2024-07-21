@@ -11,7 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Box from '@mui/material/Box';
-
+import { validatePrice, validateImageUrl } from '../../../../utils/regexValidations';
 
 const CreateProductDialog = ({ isOpen, onClose, onSave }) => {
   const [product, setProduct] = useState({
@@ -24,7 +24,7 @@ const CreateProductDialog = ({ isOpen, onClose, onSave }) => {
   });
   const [categories, setCategories] = useState([]);
   const [providers, setProviders] = useState([]);
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (isOpen) {
@@ -39,7 +39,7 @@ const CreateProductDialog = ({ isOpen, onClose, onSave }) => {
       setCategories(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error('Error fetching categories:', error);
-      setError('Error al cargar las categorías');
+      setErrors(prev => ({ ...prev, fetch: 'Error al cargar las categorías' }));
     }
   };
 
@@ -49,26 +49,43 @@ const CreateProductDialog = ({ isOpen, onClose, onSave }) => {
       setProviders(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error('Error fetching providers:', error);
-      setError('Error al cargar los proveedores');
+      setErrors(prev => ({ ...prev, fetch: 'Error al cargar los proveedores' }));
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProduct(prev => ({ ...prev, [name]: value }));
+    setErrors(prev => ({ ...prev, [name]: '' }));
+  };
+
+  const validateForm = () => {
+    let formErrors = {};
+    
+    if (!validatePrice(product.price)) {
+      formErrors.price = "El precio no puede ser negativo";
+    }
+    if (!validateImageUrl(product.image)) {
+      formErrors.image = "La URL de la imagen debe terminar en .jpg, .jpeg o .png";
+    }
+
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const productToSave = {
-      name: product.name.trim(),
-      price: parseFloat(product.price),
-      description: product.description.trim(),
-      image: product.image.trim(),
-      id_category: parseInt(product.id_category),
-      id_provider: parseInt(product.id_provider)
-    };
-    onSave(productToSave);
+    if (validateForm()) {
+      const productToSave = {
+        name: product.name.trim(),
+        price: parseFloat(product.price),
+        description: product.description.trim(),
+        image: product.image.trim(),
+        id_category: parseInt(product.id_category),
+        id_provider: parseInt(product.id_provider)
+      };
+      onSave(productToSave);
+    }
   };
 
   return (
@@ -94,6 +111,8 @@ const CreateProductDialog = ({ isOpen, onClose, onSave }) => {
             value={product.price}
             onChange={handleChange}
             required
+            error={!!errors.price}
+            helperText={errors.price}
           />
           <TextField
             fullWidth
@@ -114,6 +133,8 @@ const CreateProductDialog = ({ isOpen, onClose, onSave }) => {
             value={product.image}
             onChange={handleChange}
             required
+            error={!!errors.image}
+            helperText={errors.image}
           />
           <FormControl fullWidth margin="normal">
             <InputLabel id="category-label">Categoría</InputLabel>

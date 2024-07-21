@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Button, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import UserEditForm from './UserEditForm/UserEditForm';
+import UserCreateForm from './UserCreateForm/UserCreateForm';
+import UserTable from './UserTable/UserTable';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -59,112 +63,27 @@ const Users = () => {
     }
   };
 
-  if (isLoading) return <div>Cargando usuarios...</div>;
-  if (error) return <div>{error}</div>;
+  if (isLoading) return <Typography>Cargando usuarios...</Typography>;
+  if (error) return <Typography color="error">{error}</Typography>;
 
   return (
-    <div className="users-container">
-      <h2>Lista de Usuarios</h2>
-      <button className="create-user-btn" onClick={() => setIsCreating(true)}>Crear Nuevo Usuario</button>
+    <Box sx={{ maxWidth: 800, margin: 'auto', mt: 4 }}>
+      <Typography variant="h4" gutterBottom>Lista de Usuarios</Typography>
+      <Button variant="contained" color="primary" onClick={() => setIsCreating(true)} sx={{ mb: 2 }}>
+        Crear Nuevo Usuario
+      </Button>
       {isCreating && (
         <UserCreateForm onSave={handleCreateUser} onCancel={() => setIsCreating(false)} />
       )}
-      <table className="users-table">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map(user => (
-            <tr key={user.id_user}>
-              {editingUser && editingUser.id_user === user.id_user ? (
-                <td colSpan="4">
-                  <UserEditForm user={editingUser} onUpdate={handleUpdateUser} onCancel={() => setEditingUser(null)} />
-                </td>
-              ) : (
-                <>
-                  <td data-label="Nombre">{user.name} {user.lastname}</td>
-                  <td data-label="Username">{user.username}</td>
-                  <td data-label="Email">{user.email}</td>
-                  <td data-label="Acciones">
-                    <button className="edit-btn" onClick={() => handleEdit(user)}>Editar</button>
-                    <button className="delete-btn" onClick={() => handleDelete(user.email)}>Eliminar</button>
-                  </td>
-                </>
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-};
-
-const UserEditForm = ({ user, onUpdate, onCancel }) => {
-  const [editedUser, setEditedUser] = useState(user);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditedUser(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onUpdate(editedUser);
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="user-form user-edit-form">
-      <input name="name" value={editedUser.name} onChange={handleChange} placeholder="Nombre" required />
-      <input name="lastname" value={editedUser.lastname} onChange={handleChange} placeholder="Apellido" required />
-      <input name="username" value={editedUser.username} onChange={handleChange} placeholder="Username" required />
-      <input name="email" value={editedUser.email} onChange={handleChange} placeholder="Email" required type="email" />
-      <input name="image" value={editedUser.image} onChange={handleChange} placeholder="URL de la imagen" />
-      <div className="form-actions">
-        <button type="submit">Actualizar</button>
-        <button type="button" onClick={onCancel}>Cancelar</button>
-      </div>
-    </form>
-  );
-};
-
-const UserCreateForm = ({ onSave, onCancel }) => {
-  const [newUser, setNewUser] = useState({
-    name: '',
-    lastname: '',
-    username: '',
-    email: '',
-    password: '',
-    image: ''
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewUser(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSave(newUser);
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="user-form user-create-form">
-      <input name="name" value={newUser.name} onChange={handleChange} placeholder="Nombre" required />
-      <input name="lastname" value={newUser.lastname} onChange={handleChange} placeholder="Apellido" required />
-      <input name="username" value={newUser.username} onChange={handleChange} placeholder="Username" required />
-      <input name="email" value={newUser.email} onChange={handleChange} placeholder="Email" required type="email" />
-      <input name="password" value={newUser.password} onChange={handleChange} placeholder="Contraseña" required type="password" />
-      <input name="image" value={newUser.image} onChange={handleChange} placeholder="URL de la imagen" />
-      <div className="form-actions">
-        <button type="submit">Crear Usuario</button>
-        <button type="button" onClick={onCancel}>Cancelar</button>
-      </div>
-    </form>
+      <UserTable 
+        users={users} 
+        editingUser={editingUser} 
+        onEdit={handleEdit} 
+        onDelete={handleDelete}
+        onUpdate={handleUpdateUser}
+        onCancelEdit={() => setEditingUser(null)}
+      />
+    </Box>
   );
 };
 

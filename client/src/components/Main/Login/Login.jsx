@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAlertContext } from '../../Common/AlertContext/AlertContext';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { validateEmail, validatePassword } from '../../../utils/regexValidations';
 
 const theme = createTheme({
   palette: {
@@ -17,19 +18,36 @@ const theme = createTheme({
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { showSnackbar } = useAlertContext();
 
+  const validateForm = () => {
+    let formErrors = {};
+    
+    if (!validateEmail(email)) {
+      formErrors.email = "Por favor, introduce un email válido";
+    }
+    if (!validatePassword(password)) {
+      formErrors.password = "La contraseña debe tener al menos 7 caracteres, una mayúscula, una minúscula y un número";
+    }
+
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await dispatch(loginUser({ email, password }));
-      showSnackbar('Inicio de sesión exitoso', 'success');
-      window.location.href = '/';
-    } catch (error) {
-      console.error('Error logging in:', error);
-      showSnackbar('Error al iniciar sesión. Por favor, intenta de nuevo.', 'error');
+    if (validateForm()) {
+      try {
+        await dispatch(loginUser({ email, password }));
+        showSnackbar('Inicio de sesión exitoso', 'success');
+        navigate('/');
+      } catch (error) {
+        console.error('Error logging in:', error);
+        showSnackbar('Error al iniciar sesión. Por favor, intenta de nuevo.', 'error');
+      }
     }
   };
 
@@ -51,6 +69,8 @@ const Login = () => {
             autoFocus
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            error={!!errors.email}
+            helperText={errors.email}
           />
           <TextField
             margin="normal"
@@ -63,6 +83,8 @@ const Login = () => {
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            error={!!errors.password}
+            helperText={errors.password}
           />
           <Button
             type="submit"

@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const categoriesController = require('../controllers/categories.controller');
+const checkAdmin = require('../middlewares/checkAdmin');
 
-router.get('/', categoriesController.getAllCategories);
-router.get('/:id', categoriesController.getCategoryById);
-router.post('/', categoriesController.createCategory);
-router.put('/:id', categoriesController.updateCategory);
-router.delete('/:id', categoriesController.deleteCategory);
+router.get('/', checkAdmin, categoriesController.getAllCategories);
+router.get('/:id', checkAdmin, categoriesController.getCategoryById);
+router.post('/', checkAdmin, categoriesController.createCategory);
+router.put('/:id', checkAdmin, categoriesController.updateCategory);
+router.delete('/:id', checkAdmin, categoriesController.deleteCategory);
 
 module.exports = router;

@@ -11,11 +11,13 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Box from '@mui/material/Box';
+import { validatePrice, validateImageUrl } from '../../../../../../utils/regexValidations';
 
 const ProductEdit = ({ product, onUpdateSuccess, onCancel }) => {
   const [editedProduct, setEditedProduct] = useState(product);
   const [categories, setCategories] = useState([]);
   const [providers, setProviders] = useState([]);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     fetchCategoriesAndProviders();
@@ -31,28 +33,47 @@ const ProductEdit = ({ product, onUpdateSuccess, onCancel }) => {
       setProviders(providersRes.data);
     } catch (error) {
       console.error("Error fetching categories and providers:", error);
+      setErrors(prev => ({ ...prev, fetch: "Error al cargar categorías y proveedores" }));
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditedProduct(prev => ({ ...prev, [name]: value }));
+    setErrors(prev => ({ ...prev, [name]: '' }));
+  };
+
+  const validateForm = () => {
+    let formErrors = {};
+    
+    if (!regex.validatePrice(editedProduct.price)) {
+      formErrors.price = "El precio no puede ser negativo";
+    }
+    if (!regex.validateImageUrl(editedProduct.image)) {
+      formErrors.image = "La URL de la imagen debe terminar en .jpg, .jpeg o .png";
+    }
+
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.put(`http://localhost:5000/api/products/product/${product.id_product}`, {
-        name: editedProduct.name,
-        description: editedProduct.description,
-        price: editedProduct.price,
-        image: editedProduct.image,
-        category: editedProduct.category,
-        provider: editedProduct.provider
-      });
-      onUpdateSuccess(response.data);
-    } catch (error) {
-      console.error("Error updating product:", error);
+    if (validateForm()) {
+      try {
+        const response = await axios.put(`http://localhost:5000/api/products/product/${product.id_product}`, {
+          name: editedProduct.name,
+          description: editedProduct.description,
+          price: editedProduct.price,
+          image: editedProduct.image,
+          category: editedProduct.category,
+          provider: editedProduct.provider
+        });
+        onUpdateSuccess(response.data);
+      } catch (error) {
+        console.error("Error updating product:", error);
+        setErrors(prev => ({ ...prev, submit: "Error al actualizar el producto" }));
+      }
     }
   };
 
@@ -79,6 +100,8 @@ const ProductEdit = ({ product, onUpdateSuccess, onCancel }) => {
             value={editedProduct.price}
             onChange={handleChange}
             required
+            error={!!errors.price}
+            helperText={errors.price}
           />
           <TextField
             fullWidth
@@ -99,6 +122,8 @@ const ProductEdit = ({ product, onUpdateSuccess, onCancel }) => {
             value={editedProduct.image}
             onChange={handleChange}
             required
+            error={!!errors.image}
+            helperText={errors.image}
           />
           <FormControl fullWidth margin="normal">
             <InputLabel id="category-label">Categoría</InputLabel>
