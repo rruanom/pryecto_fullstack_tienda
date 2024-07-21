@@ -1,6 +1,11 @@
 const oldCartService = require('../services/oldCart.services');
+const { validationResult } = require("express-validator");
 
 async function createUser(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     try {
         const { email } = req.body;
         await oldCartService.createUser(email);
@@ -11,6 +16,10 @@ async function createUser(req, res) {
 }
 
 async function saveCart(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     try {
         const { email, cart } = req.body;
         const savedCart = await oldCartService.saveCart(email, cart);
@@ -21,6 +30,10 @@ async function saveCart(req, res) {
 }
 
 async function getPreviousCarts(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     try {
         const { email } = req.params;
         const carts = await oldCartService.getPreviousCarts(email);

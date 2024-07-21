@@ -1,4 +1,5 @@
 const provider = require('../models/providers.model');
+const { validationResult } = require("express-validator");
 
 const getAllProviders = async (req, res) => {
     try {
@@ -24,6 +25,10 @@ const getProviderById = async (req, res) => {
 };
 
 const createProvider = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     try {
         const { name, cif, address } = req.body;
         const newProvider = await provider.createProvider(name, cif, address);
@@ -34,6 +39,10 @@ const createProvider = async (req, res) => {
 };
 
 const updateProvider = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     try {
         const { id } = req.params;
         const { name, cif, address } = req.body;
@@ -49,6 +58,10 @@ const updateProvider = async (req, res) => {
 };
 
 const deleteProvider = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     try {
         const { id } = req.params;
         const result = await provider.deleteProvider(id);

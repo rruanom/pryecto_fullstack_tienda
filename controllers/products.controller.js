@@ -13,10 +13,12 @@ const getProductById = async (req, res) => {
 }
 
 const getProductsByFilters = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     const { category = '', provider = '', keyword = '', page = 1, priceOrder = '', limit = 10 } = req.query;
     const offset = (page - 1) * limit;
-
-    console.log('Received request with params:', { category, provider, keyword, page, priceOrder, limit });
 
     try {
         const result = await product.getProductsByFilters(category, provider, keyword, parseInt(page), priceOrder, parseInt(limit), offset);
@@ -33,12 +35,14 @@ const getProductsByFilters = async (req, res) => {
 };
 
 const deleteProduct = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     try {
         const { id } = req.params;
-        console.log('Deleting product with ID:', id);
         const result = await product.deleteProductById(id);
         if (result > 0) {
-            console.log(`Se ha borrado el producto con ID ${id}`);
             return res.status(200).json({ success: `Se ha borrado el producto con ID ${id}` });
         } else {
             return res.status(404).json({ error: `No se encontró el producto con ID ${id}` });
@@ -50,14 +54,13 @@ const deleteProduct = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     try {
         const { name, price, description, id_category, id_provider, image } = req.body;
-        console.log('Received product data:', { name, price, description, id_category, id_provider, image });
-        
         const newProduct = await product.createProduct({ name, description, price, image, id_provider, id_category });
-        
-        console.log('New product created:', newProduct);
-        
         if (newProduct) {
             res.status(201).json(newProduct);
         } else {
@@ -70,11 +73,13 @@ const createProduct = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     try {
         const { id } = req.params;
         const { description, price, image, category, provider, name } = req.body;
-        console.log('Updating product:', { id, description, price, image, category, provider, name });
-        
         const updatedProduct = await product.updateProduct(id, {
             description,
             price,
@@ -83,7 +88,6 @@ const updateProduct = async (req, res) => {
             provider,
             name
         });
-
         if (updatedProduct) {
             res.status(200).json(updatedProduct);
         } else {

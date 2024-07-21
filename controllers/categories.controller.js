@@ -1,4 +1,5 @@
 const categoryModel = require('../models/categories.model');
+const { validationResult } = require("express-validator");
 
 const getAllCategories = async (req, res) => {
   try {
@@ -26,11 +27,12 @@ const getCategoryById = async (req, res) => {
 };
 
 const createCategory = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     const { name } = req.body;
-    if (!name) {
-      return res.status(400).json({ message: 'Name is required' });
-    }
     const newCategory = await categoryModel.createCategory(name);
     res.status(201).json(newCategory);
   } catch (error) {
@@ -40,12 +42,13 @@ const createCategory = async (req, res) => {
 };
 
 const updateCategory = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     const { id } = req.params;
     const { name } = req.body;
-    if (!name) {
-      return res.status(400).json({ message: 'Name is required' });
-    }
     const updatedCategory = await categoryModel.updateCategory(id, name);
     if (updatedCategory) {
       res.status(200).json(updatedCategory);
@@ -59,6 +62,10 @@ const updateCategory = async (req, res) => {
 };
 
 const deleteCategory = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     const { id } = req.params;
     const deletedCategory = await categoryModel.deleteCategory(id);
