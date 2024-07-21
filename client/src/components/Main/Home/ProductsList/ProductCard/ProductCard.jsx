@@ -1,6 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addToCart } from "../../../../../redux/cart/cartActions";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 const ProductCard = ({ product, onProductClick }) => {
   const { id_product, name, price, id_category, category, image, provider } = product;
@@ -15,21 +21,38 @@ const ProductCard = ({ product, onProductClick }) => {
   };
 
   return (
-    <div className='product-card'>
-    <article className={typeClass} onClick={() => onProductClick(product)}>
-      <header>
-        <h2 className='name'>{name}</h2>
-      </header>
-      <div className='provider'>{provider}</div>
-      <figure className='imageProduct'>
-        <img src={image} alt={`Image of ${category}`} />
-      </figure>
-      <footer>
-        <div className="price"> <strong>{price}€</strong></div>
-        <button onClick={handleAddToCart}>Añadir al carrito</button>
-      </footer>
-    </article>
-    </div>
+    <Card 
+      className={`product-card ${typeClass}`}
+      onClick={() => onProductClick(product)}
+    >
+      <CardMedia
+        component="img"
+        image={image}
+        alt={`Image of ${category}`}
+        className="product-image"
+      />
+      <CardContent className="product-content">
+        <Typography variant="h6" component="div" className="product-name">
+          {name}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" className="product-provider">
+          Proveedor: {provider}
+        </Typography>
+        <Typography variant="h6" className="product-price">
+          <strong>{price}€</strong>
+        </Typography>
+      </CardContent>
+      <Box className="product-actions">
+        <Button 
+          variant="contained" 
+          fullWidth 
+          onClick={handleAddToCart}
+          className="add-to-cart-btn"
+        >
+          Añadir al carrito
+        </Button>
+      </Box>
+    </Card>
   );
 };
 

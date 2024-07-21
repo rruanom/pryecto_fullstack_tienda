@@ -2,15 +2,37 @@
 @import '../utils/variables.scss';
 
 .product-list {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
+  width: 100%;
+  max-width: 1200px; 
+  margin: 0 auto;
+  padding: 2rem;
+  box-sizing: border-box;
 
-    @media (min-width: 750px) {
-        grid-template-columns: repeat(2, 1fr);
+  .create-product-btn {
+    margin-bottom: 2rem;
+    max-width: 200px;
+    background-color: $primary-color;
+    color: white;
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+
+  .product-grid {
+    display: grid;
+    gap: 1rem;
+    justify-content: center;
+
+    @media (max-width: 749px) {
+      grid-template-columns: repeat(auto-fit, 280px);
+    }
+
+    @media (min-width: 750px) and (max-width: 999px) {
+      grid-template-columns: repeat(auto-fit, 280px);
     }
 
     @media (min-width: 1000px) {
-        grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, 280px);
     }
+  }
 }

@@ -3,6 +3,8 @@ import ProductCard from './ProductCard/ProductCard';
 import { useSelector } from 'react-redux';
 import CreateProductDialog from '../CreateProductDialog/CreateProductDialog';
 import axios from 'axios';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 const ProductsList = ({ products, onProductClick, setProducts }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -38,23 +40,32 @@ const ProductsList = ({ products, onProductClick, setProducts }) => {
   };
 
   return (
-    <section className="product-list">
+    <Box className="product-list">
       {isLoggedIn && user?.isAdmin && (
-        <button onClick={() => setIsDialogOpen(true)}>Crear Nuevo Producto</button>
+        <Button 
+          variant="contained" 
+          color="primary" 
+          onClick={() => setIsDialogOpen(true)}
+          className="create-product-btn"
+        >
+          Crear Nuevo Producto
+        </Button>
       )}
-      {products.map((product) => (
-        <ProductCard
-          key={product.id_product}
-          product={product}
-          onProductClick={onProductClick}
-        />
-      ))}
+      <Box className="product-grid">
+        {products.map((product) => (
+          <ProductCard
+            key={product.id_product}
+            product={product}
+            onProductClick={onProductClick}
+          />
+        ))}
+      </Box>
       <CreateProductDialog
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
         onSave={handleCreateProduct}
       />
-    </section>
+    </Box>
   );
 };
 
