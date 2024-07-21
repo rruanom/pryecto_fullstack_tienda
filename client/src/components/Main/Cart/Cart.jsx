@@ -50,23 +50,23 @@ const Cart = () => {
                     <thead>
                         <tr>
                             <th></th>
-                            <th>Name</th>
-                            <th>Image</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total Price</th>
+                            <th>Articulo</th>
+                            <th>Imagen</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
                         {cartItems.map((item) => (
                             <tr key={item.id_product}>
-                                <td><button onClick={() => dispatch(deleteCart(item.id_product))}>X</button></td>
+                                <td><button onClick={() => dispatch(deleteCart(item.id_product))}>Eliminar</button></td>
                                 <td>{item.name}</td>
                                 <td><img src={item.image} alt={item.name} style={{ width: '100px', height: '80px' }} /></td>
                                 <td>{item.price} €</td>
                                 <td>
                                     <button onClick={() => dispatch(decreaseQuantity(item.id_product))}>-</button>
-                                    <span>{item.quantity}</span>
+                                    <span>  {item.quantity}  </span>
                                     <button onClick={() => dispatch(increaseQuantity(item.id_product))}>+</button>
                                 </td>
                                 <td><b>{(item.price * item.quantity).toFixed(2)} €</b></td>
