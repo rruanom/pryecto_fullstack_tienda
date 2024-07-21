@@ -14,7 +14,7 @@ const port = process.env.PORT || 5000;
 
 // Configuración de CORS
 const corsOptions = {
-    origin: 'http://localhost:3000', 
+    origin: process.env.NODE_ENV === 'production' ? 'https://tu-dominio-en-produccion.com' : 'http://localhost:3000',
     credentials: true,
 };
 app.use(cors(corsOptions));
@@ -47,11 +47,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api-jsdoc', express.static(path.join(__dirname, '/jsondocs')));
 
 // Servir archivos estáticos
-app.use(express.static(path.join(__dirname, 'client/dist')));
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // Ruta catch-all para SPA
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/dist/index.html'));
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 // Middleware para manejo de 404
