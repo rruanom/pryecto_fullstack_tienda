@@ -94,7 +94,7 @@ const PreviousOrders = () => {
                   onClick={() => handleLoadCart(cart)}
                   sx={{ mt: 2 }}
                 >
-                  Cargar este pedido
+                  Cargar
                 </Button>
               </Paper>
             </AccordionDetails>
