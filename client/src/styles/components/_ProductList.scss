@@ -33,6 +33,12 @@
 
     @media (min-width: 1000px) {
       grid-template-columns: repeat(auto-fit, 280px);
+
+      &::after {
+        content: '';
+        grid-column: 1 / -1;
+        height: 0;
+      }
     }
   }
 }
