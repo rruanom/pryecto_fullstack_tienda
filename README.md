@@ -1,181 +1,102 @@
-# Product-MERN-Docker
-
-![App](./assets/mern_docker_schema.png)
-
-Application made with ReactJS + ExpressJS + MongoDB
-
-You must have Docker and docker-compose Installed in your System !
-
-### How to run the App :
-
-#### Development
-
-Run the app using:
-
-`$ docker-compose -f docker-compose-dev.yml up `
-
-or
-
-`$ docker-compose up -d`
-
-Above command will start the services on (-d) detach mode (similar like running the app in background)
-
-Then you can check the status of the containers by running:
-
-`$ docker ps`
-
-visit server or client : http://localhost:8080
-
-To check the status of the running containers :
-
-`docker-compose ps`
-
-
-#### Production
-
-To deploy in AWS EC2
-
-Run the app using:
-
-`$ docker-compose up -d --build --remove-orphans`
-
-or
-
-`$ docker-compose up -d`
-
-Above command will start the services on (-d) detach mode (similar like running the app in background)
-
-Then you can check the status of the containers by running:
-
-`$ docker ps`
-
-visit server or client : `your_aws_ip:80`
-
-To check the status of the running containers :
-
-`docker-compose ps`
-
-
-# Execute MERN app
-We can also execute our project without Docker
-
-## Launch client + server
-```javascript
-cd client
-//client
-npm ci
-
-cd ..
-// server
-npm ci 
-
-//Preload data MongoDB - seeder
-npm run feed_db
-
-// run MERN app
-npm run dev
-```
-
-# API REST products - Express + MongoDB
-
-API REST Node.js, Express, MongoDB (local) or MongoDB Atlas cloud. 
-Some clarifications about backend
-
-## Instalation
-```javascript
-npm i 
-npm i --save-dev nodemon
-```
-
-## Preload data MongoDB - seeder
-
-```javascript
-npm run feed_db
-```
-
-## Start backend for development
-```javascript
-  npm run server
-```
-
-## Start backend for production
-```javascript
-  npm start
-```
-## Connect with MongoDB Atlas
-Rename `.env.example` to `.env` and add your URL mongoDB atlas
-```
-DB_URL_ATLAS=
-```
-## Endpoints
-
-- GET products. Pagination from backend
-
-```javascript
-GET http://localhost:3000/api/products
-GET http://localhost:3000/api/products?page=1&limit=2
-GET http://localhost:3000/api/products?page=2&limit=3
-
-```
-
-- POST new product
-```javascript
-POST http://localhost:3000/api/products
-
-Request:
-{
-"title": "Bocadillo Lomo Queso - Rocafría",
-"price": 4.20,
-"description": "El mejor bocadillo del barrio",
-"image": "https://babelcafeloungebar.com/wp-content/uploads/2021/02/bocadillo-lomo-queso-babel.jpg"
-}
-
-Response:
-{
-"message": "Producto Bocadillo Lomo Queso - Rocafría guardado en el sistema con ID: 632f9a5236a3262c5b1b417a"
-}
-```
-## Configure MongoDB Atlas 
-
-1. Register in [MongoDB ATLAS](https://www.mongodb.com/cloud)
-
-2. Create a cluster: 
-
-![img](./assets/create_cluster.png)
-
-3. Click on "Browse Collections": 
-
-![img](./assets/browse_collections.png)
-
-
-5. Create a user in MongoDB Atlas for your app
-
-6. Allow access to your cluster from any IP: 
-
-- **Access List Entry:**: 0.0.0.0/0
-- **Comment:** all
-
-![img](./assets/network_access.png)
-
-7. Let's connect to MongoDB Atlas:
-
-Get your URL MongoDB atlas. Click on **Databases** -> **Connect**:
-
-![img](./assets/connect.png)
-
-Choose **"Connect your application"**: 
-
-![img](./assets/connect_your_application.png)
-
-Introduce your `username` y `password`: 
-
-```
-
-mongodb+srv://<username>:<password>@cluster0.t7z6t.mongodb.net/BD?retryWrites=true&w=majority
-
-```
-
-Now you are ready to use your app editing `.env` file with your MongoDB URL
-
-
-![App](./assets/deploy_meme.jpeg)
+# Tienda Online - Proyecto Final
+
+## Descripción
+Este proyecto es una tienda online fullstack desarrollada como proyecto final. Ofrece una experiencia de compra completa, desde la navegación del catálogo hasta la gestión de pedidos, con funcionalidades tanto para clientes como para administradores.
+
+## Tecnologías Utilizadas
+- Frontend: React 18 con Vite
+- Backend: Node.js 14+ con Express 4
+- Bases de Datos: 
+  - PostgreSQL 12+ (productos, categorías, proveedores, usuarios)
+  - MongoDB 4+ (carritos de compra anteriores)
+- Autenticación: JWT (JSON Web Tokens)
+- Estilizado: CSS Modules
+- Testing: Jest y React Testing Library
+- Despliegue: Render
+
+## Características Principales
+
+### Para Clientes
+1. Catálogo de Productos
+   - Visualización de productos con imágenes, descripciones y precios
+   - Filtrado por categoría, proveedor y nombre
+   - Ordenamiento por precio (ascendente/descendente) o aleatorio
+   - Paginación de resultados
+
+2. Sistema de Autenticación
+   - Registro de nuevos usuarios
+   - Inicio de sesión con JWT
+   - Cierre de sesión
+
+3. Carrito de Compras
+   - Agregar/eliminar productos
+   - Modificar cantidades
+   - Persistencia del carrito entre sesiones
+
+4. Gestión de Pedidos
+   - Crear nuevos pedidos
+   - Ver historial de pedidos anteriores
+
+5. Perfil de Usuario
+   - Ver y editar información personal
+   - Cambiar contraseña
+
+### Para Administradores
+1. Gestión de Productos (CRUD)
+   - Crear nuevos productos
+   - Leer/Listar todos los productos
+   - Actualizar información de productos
+   - Eliminar productos
+
+2. Gestión de Categorías (CRUD)
+   - Crear nuevas categorías
+   - Listar todas las categorías
+   - Actualizar nombres de categorías
+   - Eliminar categorías
+
+3. Gestión de Proveedores (CRUD)
+   - Agregar nuevos proveedores
+   - Listar todos los proveedores
+   - Actualizar información de proveedores
+   - Eliminar proveedores
+
+4. Gestión de Usuarios
+   - Ver lista de usuarios registrados
+   - Cambiar roles de usuario (cliente/admin)
+   - Desactivar cuentas de usuario
+
+## API Endpoints
+
+### Productos
+- GET /api/products/page: Obtiene productos paginados con filtros
+- GET /api/products/id/:id: Obtiene un producto por ID
+- POST /api/products/product: Crea un nuevo producto
+- PUT /api/products/product/:id: Actualiza un producto
+- DELETE /api/products/product/:id: Elimina un producto
+
+### Categorías
+- GET /api/categories: Obtiene todas las categorías
+- GET /api/categories/:id: Obtiene una categoría por ID
+- POST /api/categories: Crea una nueva categoría
+- PUT /api/categories/:id: Actualiza una categoría
+- DELETE /api/categories/:id: Elimina una categoría
+
+### Proveedores
+- GET /api/providers: Obtiene todos los proveedores
+- GET /api/providers/:id: Obtiene un proveedor por ID
+- POST /api/providers: Crea un nuevo proveedor
+- PUT /api/providers/:id: Actualiza un proveedor
+- DELETE /api/providers/:id: Elimina un proveedor
+
+### Usuarios
+- GET /api/users: Obtiene usuarios (con filtro por email)
+- POST /api/users/register: Registra un nuevo usuario
+- POST /api/users/login: Inicia sesión de usuario
+- POST /api/users/logout: Cierra sesión de usuario
+- PUT /api/users: Actualiza información de usuario
+- DELETE /api/users: Elimina un usuario
+
+### Carritos Antiguos
+- POST /api/oldcarts/create-user: Crea un usuario en MongoDB
+- POST /api/oldcarts: Guarda un carrito
+- GET /api/oldcarts/:email: Obtiene carritos anteriores de un usuario
